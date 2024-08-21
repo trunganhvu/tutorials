@@ -1,4 +1,4 @@
-# Trainner
+# Tutorials
 
 This is a repository for the Trainner project, created by trunganhvu.
 
