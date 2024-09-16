@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+
+    <property name="logging.error.file.name" value="error" />
+    <property name="logging.error.file.path" value="./logs"/>
+    <property name="logging.file.name" value="info" />
+    <property name="logging.file.path" value="./logs"/>
+
+    <!-- Normal log appender -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--   Set info log file name     -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging.file.path}/${logging.file.name}_%d{yyyyMMdd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <!--    Filter info, debug, trace log       -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO, DEBUG, TRACE</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMisMatch>NEUTRAL</onMisMatch>
+        </filter>
+    </appender>
+
+    <!-- Error log appender -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--   Set error log file name     -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logging.error.file.path}/${logging.error.file.name}_%d{yyyyMMdd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <!--    Filter error log       -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN, INFO, DEBUG, TRACE</level>
+            <onMatch>DENY</onMatch>
+            <onMisMatch>NEUTRAL</onMisMatch>
+        </filter>
+    </appender>
+
+    <!-- Console Appender -->
+    <!-- Logging console IDE   -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Register logging    -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ERROR_FILE"/>
+        <appender-ref ref="INFO_FILE"/>
+    </root>
+<!--    <logger name="com.alicp.jetcache" level="INFO" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--        <appender-ref ref="ERROR_FILE" />-->
+<!--        <appender-ref ref="INFO_FILE" />-->
+<!--    </logger>-->
+
+</configuration>

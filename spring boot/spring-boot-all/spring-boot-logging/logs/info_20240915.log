@@ -1,0 +1,83 @@
+2024-09-15 13:50:06.106 [main] INFO  c.a.s.SpringBootLoggingApplication - Initializing Spring Boot Application
+2024-09-15 13:50:06.993 [main] INFO  c.a.s.SpringBootLoggingApplication - Starting SpringBootLoggingApplication using Java 17.0.11 with PID 4652 (D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging\target\classes started by Admin in D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging)
+2024-09-15 13:50:06.995 [main] INFO  c.a.s.SpringBootLoggingApplication - No active profile set, falling back to 1 default profile: "default"
+2024-09-15 13:50:08.436 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-09-15 13:50:08.474 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-09-15 13:50:08.478 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-15 13:50:08.478 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-15 13:50:08.542 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-09-15 13:50:08.543 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1475 ms
+2024-09-15 13:50:08.993 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-09-15 13:50:09.019 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2024-09-15 13:50:09.030 [main] INFO  c.a.s.SpringBootLoggingApplication - Started SpringBootLoggingApplication in 2.765 seconds (process running for 4.03)
+2024-09-15 13:50:19.683 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-15 13:50:19.683 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-15 13:50:19.684 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-09-15 13:50:22.331 [http-nio-8080-exec-3] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 13:50:22.332 [http-nio-8080-exec-3] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 13:50:45.486 [http-nio-8080-exec-4] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 13:50:45.486 [http-nio-8080-exec-4] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 13:50:55.480 [http-nio-8080-exec-5] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 13:50:55.482 [http-nio-8080-exec-5] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 17:42:49.254 [main] INFO  c.a.s.SpringBootLoggingApplication - Initializing Spring Boot Application
+2024-09-15 17:42:50.064 [main] INFO  c.a.s.SpringBootLoggingApplication - Starting SpringBootLoggingApplication using Java 17.0.11 with PID 9084 (D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging\target\classes started by Admin in D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging)
+2024-09-15 17:42:50.066 [main] INFO  c.a.s.SpringBootLoggingApplication - No active profile set, falling back to 1 default profile: "default"
+2024-09-15 17:42:51.692 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-09-15 17:42:51.710 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-09-15 17:42:51.716 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-15 17:42:51.716 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-15 17:42:51.827 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-09-15 17:42:51.828 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1658 ms
+2024-09-15 17:42:52.478 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-09-15 17:42:52.507 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2024-09-15 17:42:52.518 [main] INFO  c.a.s.SpringBootLoggingApplication - Started SpringBootLoggingApplication in 3.106 seconds (process running for 4.552)
+2024-09-15 17:42:56.857 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-15 17:42:56.858 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-15 17:42:56.859 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-09-15 17:42:56.895 [http-nio-8080-exec-2] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 17:42:56.900 [http-nio-8080-exec-2] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 17:43:14.625 [http-nio-8080-exec-3] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 17:43:14.625 [http-nio-8080-exec-3] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 17:43:25.242 [http-nio-8080-exec-4] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 17:43:25.243 [http-nio-8080-exec-4] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 17:43:40.377 [http-nio-8080-exec-5] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getEmployee method.
+2024-09-15 17:43:40.377 [http-nio-8080-exec-5] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 17:43:58.452 [main] INFO  c.a.s.SpringBootLoggingApplication - Initializing Spring Boot Application
+2024-09-15 17:43:59.233 [main] INFO  c.a.s.SpringBootLoggingApplication - Starting SpringBootLoggingApplication using Java 17.0.11 with PID 6876 (D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging\target\classes started by Admin in D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging)
+2024-09-15 17:43:59.236 [main] INFO  c.a.s.SpringBootLoggingApplication - No active profile set, falling back to 1 default profile: "default"
+2024-09-15 17:44:00.713 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-09-15 17:44:00.725 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-09-15 17:44:00.730 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-15 17:44:00.730 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-15 17:44:00.809 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-09-15 17:44:00.810 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1487 ms
+2024-09-15 17:44:01.230 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-09-15 17:44:01.259 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2024-09-15 17:44:01.269 [main] INFO  c.a.s.SpringBootLoggingApplication - Started SpringBootLoggingApplication in 2.671 seconds (process running for 3.99)
+2024-09-15 17:44:17.357 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-15 17:44:17.358 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-15 17:44:17.359 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-09-15 17:44:17.423 [http-nio-8080-exec-1] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getEmployee method.
+2024-09-15 17:44:17.429 [http-nio-8080-exec-1] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 17:44:41.733 [http-nio-8080-exec-3] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getEmployee method.
+2024-09-15 17:44:41.734 [http-nio-8080-exec-3] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 18:03:08.666 [main] INFO  c.a.s.SpringBootLoggingApplication - Starting SpringBootLoggingApplication using Java 17.0.11 with PID 8872 (D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging\target\classes started by Admin in D:\DEV\tutorials\spring boot\spring-boot-all\spring-boot-logging)
+2024-09-15 18:03:08.669 [main] INFO  c.a.s.SpringBootLoggingApplication - No active profile set, falling back to 1 default profile: "default"
+2024-09-15 18:03:10.060 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-09-15 18:03:10.072 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-09-15 18:03:10.076 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-15 18:03:10.076 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-15 18:03:10.135 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-09-15 18:03:10.135 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1380 ms
+2024-09-15 18:03:10.559 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-09-15 18:03:10.583 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2024-09-15 18:03:10.593 [main] INFO  c.a.s.SpringBootLoggingApplication - Started SpringBootLoggingApplication in 2.563 seconds (process running for 3.808)
+2024-09-15 18:03:33.367 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-15 18:03:33.368 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-15 18:03:33.369 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-09-15 18:03:33.431 [http-nio-8080-exec-2] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getEmployee method.
+2024-09-15 18:03:33.435 [http-nio-8080-exec-2] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
+2024-09-15 18:03:37.462 [http-nio-8080-exec-4] INFO  c.a.s.controller.EmployeeController - START ==> LOG 1 : Inside EmployeeController getAllEmployee method.
+2024-09-15 18:03:37.462 [http-nio-8080-exec-4] INFO  c.a.s.controller.EmployeeController - START ==> LOG 2 : Inside EmployeeController getAllEmployee method.
+2024-09-15 18:03:37.462 [http-nio-8080-exec-4] WARN  c.a.s.controller.EmployeeController - START ==> LOG 4 : Inside EmployeeController getAllEmployee method.
+2024-09-15 18:03:37.462 [http-nio-8080-exec-4] INFO  c.a.s.service.EmployeeService - START ==> LOG 1 : Inside EmployeeService getAllEmployee method.
