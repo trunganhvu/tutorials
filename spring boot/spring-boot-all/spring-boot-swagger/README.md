@@ -1,4 +1,5 @@
 # Dependency
+MAVEN
 ```shell
 <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 <dependency>
@@ -6,6 +7,11 @@
     <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
     <version>2.5.0</version>
 </dependency>
+```
+
+GRADLE
+```shell
+implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.3'
 ```
 
 # API docs
