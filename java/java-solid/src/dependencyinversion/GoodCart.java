@@ -33,7 +33,7 @@ public class GoodCart {
     // Hàm checkout mới sẽ như sau
 
     /**
-     * High level dependency on interface (instance of
+     * High level shouldn't dependency on low level so depend on interface/abstract which low level used
      * @param orderId
      * @param userId
      */

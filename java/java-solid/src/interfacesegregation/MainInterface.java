@@ -13,5 +13,15 @@ public class MainInterface {
         goodPaymentProcessor.processPayment(new GoodBankingPayment());
 
         // Bad => PaymentProcessor have a function not mean is payment
+
+        // ----------Other explain----------------
+        // interface Worker {work(), eat()}
+        // Robot, Human implements Worker but Robot needn't eat()
+        //
+        // Solutions: crate new interface Eatable
+        // Robot implements Worker
+        // Human implements Worker, Eatable
     }
+
+
 }

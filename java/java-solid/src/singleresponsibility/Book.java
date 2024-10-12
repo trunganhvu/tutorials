@@ -2,7 +2,7 @@ package singleresponsibility;
 
 /**
  * Single responsibility is every class, method have a responsibility for object
- * (Entity only have data, UserService only maniputor for user, not check authentication or action logout
+ * (Entity only have data, UserService only manipulator for user, not check authentication or action logout
  */
 public class Book {
 

@@ -11,6 +11,10 @@ public class ClientSetterService {
         this.messageService = messageService;
     }
 
+    /**
+     * Methods call to dependency
+     * @param message
+     */
     public void sendMessage(String message) {
         messageService.sendMessage(message);
     }

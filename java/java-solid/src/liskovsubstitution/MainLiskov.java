@@ -9,7 +9,11 @@ public class MainLiskov {
 
 
         // Rectangle (width, height) and Square(side) extends Shape(getArea())
-        // Good => Children class not change goal attribute of parent class
+        // Good => Children class not change target attribute of parent class
+
+
+        // Solution: Create interface/abstract class have some common methods
+        // Child class define detail attributes and extend only common methods of parent
 
     }
 }
