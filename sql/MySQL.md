@@ -701,6 +701,7 @@ COMMIT;
 * Non-repeatable reads: Dữ liệu cần đọc không giống nhau qua các nhiều lần đọc. Xảy ra khi có transaction khác update cùng resource
 ![Non-repeatable reads](https://vladmihalcea.com/wp-content/uploads/2018/06/NonRepeatableRead.png)
 * Phantom reads: Đọc dữ liệu mà không chắc nó sẽ tồn tại. Tương tự như non-repeatable reads nhưng xảy ra khi có transaction khác insert thêm resource.
+
 **Những định nghĩa về isolation levels:**
 * Read uncommitted - Đọc chưa xác nhận
 Mọi thay đổi từ transaction khác đểu có thể đọc được mà không cần committed -> nảy sinh vấn đề dirty reads
