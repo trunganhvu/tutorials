@@ -1,0 +1,1 @@
+INSERT INTO Counter (counter, version) VALUES (1, 1);
