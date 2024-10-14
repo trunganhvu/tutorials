@@ -708,7 +708,7 @@ Mọi thay đổi từ transaction khác đểu có thể đọc được mà kh
 * Read committed - Đọc đã được xác nhận
 Transaction chỉ đọc dữ liệu đã committed từ transaction hoàn thành -> Có thể nảy sinh non-repeatable reads
 * Repeatable Read - Đọc có thể lặp lại
-Transaction đảm bảo đữ liệu được đọc không thay đổi giữa các lần đọc -> Có thể nảy sinh phantom-reads
+Transaction đảm bảo đữ liệu được đọc không thay đổi giữa các lần đọc (có thể tran khác đã thay đổi record) -> Có thể nảy sinh phantom-reads
 * Serialiable - Chuỗi hóa (Highest Isolation, Lowest Performance)
    1. Read Method: Khóa các row và table transaction sử dụng để đảm bảo data không thay đổi
    2. Write Method: Khóa các row và table (khi insert) đảm bảo transaction khác không thể can thiệp
