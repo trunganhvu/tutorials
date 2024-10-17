@@ -1,12 +1,12 @@
-import Builder.Immutable.BankAccountImmutable;
-import Builder.Mutable.BankAccountMutable;
-import Builder.Mutable.BankAccountMutableBuilderImpl;
+import BuilderPattern.Immutable.BankAccountImmutable;
+import BuilderPattern.Mutable.BankAccountMutable;
+import BuilderPattern.Mutable.BankAccountMutableBuilderImpl;
 import FactoryPattern.BeanCase.AppConfig;
 import FactoryPattern.BeanCase.Product;
 import FactoryPattern.EasyCase.Bank;
 import FactoryPattern.EasyCase.BankFactory;
 import FactoryPattern.EasyCase.BankType;
-import Singleton.*;
+import SingletonPattern.*;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
