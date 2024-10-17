@@ -1,4 +1,4 @@
-package Singleton;
+package SingletonPattern;
 
 public class EagerInitializedSingletonNoConstructor {
     private static final EagerInitializedSingletonNoConstructor INSTANCE = new EagerInitializedSingletonNoConstructor();

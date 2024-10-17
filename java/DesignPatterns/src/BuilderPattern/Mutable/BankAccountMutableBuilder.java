@@ -1,4 +1,4 @@
-package Builder.Mutable;
+package BuilderPattern.Mutable;
 
 /**
  * Defind builder per attribute and object instant

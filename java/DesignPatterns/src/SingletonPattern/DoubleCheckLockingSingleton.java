@@ -1,4 +1,4 @@
-package Singleton;
+package SingletonPattern;
 public class DoubleCheckLockingSingleton {
 
     // volatile variable is saved to disk not as normal variable saved in CPU

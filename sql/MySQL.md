@@ -506,6 +506,8 @@ Stored Procedure và Function là một tập hợp các câu lệnh SQL dùng �
 
 Procedure có thể hiểu là void method (Có thể có IN, OUT hoặc INOUT là parameter)
 Function có thể hiểu là function có kiểu trả về sử dụng return và IN là parameter. Nếu câu lệnh RETURN trả về một giá trị thuộc loại khác, thì giá trị đó sẽ bị ép buộc về loại thích hợp. Ví dụ: nếu một hàm chỉ định giá trị ENUM hoặc SET trong mệnh đề RETURNS, nhưng câu lệnh RETURN trả về một số nguyên, thì giá trị được trả về từ hàm là ENUM hoặc SET
+Trong procedure có thể gọi đến Function để xử lý dữ liệu.
+Còn function không thể gọi đến procedure do procedure không return gì mà nó thực hiện xứ lý khác.
 
 Ví dụ procedure:
 ```sh

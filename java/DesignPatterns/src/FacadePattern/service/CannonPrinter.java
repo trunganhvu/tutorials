@@ -2,7 +2,7 @@
  * Copyright 2024
  * Name: CannonPrinter
  */
-package Facade.service;
+package FacadePattern.service;
 
 /**
  * Comment class

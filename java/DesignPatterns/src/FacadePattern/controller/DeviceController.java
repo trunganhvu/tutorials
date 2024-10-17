@@ -2,9 +2,9 @@
  * Copyright 2024
  * Name: DeviceController
  */
-package Facade.controller;
+package FacadePattern.controller;
 
-import Facade.service.CannonPrinter;
+import FacadePattern.service.CannonPrinter;
 
 /**
  * Comment class

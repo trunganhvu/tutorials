@@ -1,4 +1,4 @@
-package Singleton;
+package SingletonPattern;
 
 public enum EnumSingleton {
     INSTANCE(1, "instance");

@@ -2,7 +2,7 @@
  * Copyright 2024
  * Name: Power
  */
-package Facade.service;
+package FacadePattern.service;
 
 /**
  * Comment class

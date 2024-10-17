@@ -1,4 +1,4 @@
-package Builder.Immutable;
+package BuilderPattern.Immutable;
 
 /**
  * Immutable object (final attribute + static nested class)

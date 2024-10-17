@@ -1,8 +1,7 @@
-package Singleton;
+package SingletonPattern;
 
 import java.io.ObjectStreamException;
 import java.io.Serializable;
-import java.util.Objects;
 
 public class SerializedSingleton implements Serializable {
     private static final long serialVersionUID = 1741825395699241705L;

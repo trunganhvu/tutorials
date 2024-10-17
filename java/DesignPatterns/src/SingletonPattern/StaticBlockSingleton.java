@@ -1,4 +1,4 @@
-package Singleton;
+package SingletonPattern;
 
 public class StaticBlockSingleton {
 
