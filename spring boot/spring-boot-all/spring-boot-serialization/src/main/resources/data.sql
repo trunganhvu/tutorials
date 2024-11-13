@@ -1,0 +1,1 @@
+INSERT INTO Counter (counter, start, version) VALUES (1, '2012-09-17 18:47:52.069', 1);

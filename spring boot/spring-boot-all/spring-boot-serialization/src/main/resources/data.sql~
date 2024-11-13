@@ -1,0 +1,1 @@
+INSERT INTO Counter (counter, start, version) VALUES (1, '2024/11/01 11:00:00', 1);

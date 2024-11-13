@@ -1,0 +1,11 @@
+/**
+ * Copyright 2024
+ * Name: CommonSerializer
+ */
+package com.anhvt.springbootserialization.jackson;/** 
+ * Comment class    
+ * 
+ * @author trunganhvu
+ * @date 11/13/2024
+ */public class CommonSerializer {
+}
