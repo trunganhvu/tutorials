@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <include file="db/changelog/migration/_0.1.0_migrate.sql" />
+    <include file="db/changelog/migration/_0.2.0_migrate.sql" />
+
+    <include file="db/changelog/xml/20241118_create_user.xml" />
+    <include file="db/changelog/xml/20241118_insert_department.xml" />
+
+</databaseChangeLog>

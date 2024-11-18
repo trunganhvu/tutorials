@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20241118-xml1" author="trunganhvu">
+        <createTable tableName="user">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints checkConstraint="true" unique="true" />
+            </column>
+            <column name="name" type="varchar2(255)" />
+        </createTable>
+        <comment>
+            Creates a data in department table
+        </comment>
+    </changeSet>
+
+</databaseChangeLog>

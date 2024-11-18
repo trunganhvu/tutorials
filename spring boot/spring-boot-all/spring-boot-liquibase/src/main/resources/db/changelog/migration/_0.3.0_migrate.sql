@@ -1,0 +1,1 @@
+insert into department (name) values ('test migrate 3');
