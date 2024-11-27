@@ -1,5 +1,5 @@
 # Run containers
-Run primary and replica in background:
+Run primary and replica (read only) in background:
 ```bash
 docker-compose up -d postgres_primary postgres_replica
 ```
