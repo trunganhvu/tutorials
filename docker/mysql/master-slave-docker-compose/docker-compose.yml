@@ -1,0 +1,43 @@
+version: "3"
+
+# Here's where we define our services:
+services:
+  # The master server, the OG in this world
+  mysql-master:
+    # We'll use the latest MySQL image from Docker Hub
+    image: mysql:latest
+    # Give it a cool name (mysql-master is pretty clear, right?)
+    container_name: mysql-master
+    # Extra commands to configure the master for replication
+    command: --server-id=1 --log-bin=mysql-bin --binlog-format=row
+    # Set some environment variables for passwords and database details
+    # Remember to replace these with your own strong passwords!
+    environment:
+      MYSQL_ROOT_PASSWORD: your_super_secure_root_password
+      MYSQL_DATABASE: mydatabase # Feel free to change this database name
+      MYSQL_USER: replication_user # This user will handle replication
+      MYSQL_PASSWORD: your_super_secure_replication_password
+    # Map the container port (3306) to your host machine's port (also 3306)
+    # This lets you access the master server from your machine
+    ports:
+      - "3306:3306"
+
+  # The replica server, the master's trusty sidekick
+  mysql-slave:
+    # Same image as the master
+    image: mysql:latest
+    # Another cool name (can you guess what it is?)
+    container_name: mysql-slave
+    # This tells the replica to wait for the master to be ready before starting
+    depends_on:
+      - mysql-master
+    # Similar commands and environment variables as the master
+    command: --server-id=2 --log-bin=mysql-bin --binlog-format=row
+    environment:
+      MYSQL_ROOT_PASSWORD: your_super_secure_root_password # Same password for both
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: replication_user
+      MYSQL_PASSWORD: your_super_secure_replication_password
+    # Map the container port (3306) to a different host machine port (3307 in this case)
+    ports:
+      - "3307:3306"
