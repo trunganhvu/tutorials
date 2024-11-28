@@ -1,11 +1,6 @@
-# Create network
+# Create compose with 2 services (master and slave) within docker-compose.yml
 ```sh
-docker network create database-group-net
-```
-https://dev.to/siddhantkcode/how-to-set-up-a-mysql-master-slave-replication-in-docker-4n0a
-# Pull mysql
-```sh
-docker pull mysql/mysql-server:5.7
+docker-compose up -d
 ```
 
 # Config master
@@ -27,20 +22,13 @@ Executed_Gtid_Set: 6b9a6412-ab3a-11ef-92d7-0242ac1b0002:1-3
 1 row in set (0.00 sec)
 ```
 
-<!-- ```sh
+```sh
 CREATE USER 'repl_user'@'%' IDENTIFIED WITH mysql_native_password BY 'repl_password';
 GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'repl_user'@'%';
 FLUSH PRIVILEGES;
 SHOW GRANTS FOR 'repl_user'@'%';
-``` -->
-```sh
-CREATE USER 'replication_user'@'%' IDENTIFIED WITH mysql_native_password BY 'replication_password';
-CREATE USER 'repl_user'@'%' IDENTIFIED WITH mysql_native_password BY 'repl_password';
-
-GRANT REPLICATION SLAVE ON *.* TO 'replication_user'@'%';
-FLUSH PRIVILEGES;
-SHOW MASTER STATUS;
 ```
+
 
 # Config slave
 ```sh
@@ -50,7 +38,7 @@ stop slave;
 ```
 
 ## Fill  mysql-bin-1.000003 và 749 từ master
-> Check lại MASTER_HOST trong inspect master 
+> Check lại MASTER_HOST trong inspect master (ipaddress)
 ```sh
 CHANGE MASTER TO
     MASTER_HOST = '172.27.0.2',
@@ -67,9 +55,9 @@ show slave status\G
 ```sh
 docker exec -it master-database bash
 mysql -u root -p
-show database;
+show databases;
 create database anhvt;
-show database;
+show databases;
 use anhvt;
 create table test(id bigint, name varchar(100));
 show tables;
@@ -79,7 +67,7 @@ show tables;
 ```sh
 docker exec -it master-database bash
 mysql -u root -p
-show database;
+show databases;
 -- database anhvt async from master
 use anhvt;
 show tables;

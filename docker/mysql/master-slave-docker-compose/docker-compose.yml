@@ -1,43 +1,77 @@
 version: "3"
 
-# Here's where we define our services:
-services:
-  # The master server, the OG in this world
-  mysql-master:
-    # We'll use the latest MySQL image from Docker Hub
-    image: mysql:latest
-    # Give it a cool name (mysql-master is pretty clear, right?)
-    container_name: mysql-master
-    # Extra commands to configure the master for replication
-    command: --server-id=1 --log-bin=mysql-bin --binlog-format=row
-    # Set some environment variables for passwords and database details
-    # Remember to replace these with your own strong passwords!
-    environment:
-      MYSQL_ROOT_PASSWORD: your_super_secure_root_password
-      MYSQL_DATABASE: mydatabase # Feel free to change this database name
-      MYSQL_USER: replication_user # This user will handle replication
-      MYSQL_PASSWORD: your_super_secure_replication_password
-    # Map the container port (3306) to your host machine's port (also 3306)
-    # This lets you access the master server from your machine
-    ports:
-      - "3306:3306"
+networks:
+  database-group-net:
+    driver: bridge
 
-  # The replica server, the master's trusty sidekick
-  mysql-slave:
-    # Same image as the master
-    image: mysql:latest
-    # Another cool name (can you guess what it is?)
-    container_name: mysql-slave
-    # This tells the replica to wait for the master to be ready before starting
-    depends_on:
-      - mysql-master
-    # Similar commands and environment variables as the master
-    command: --server-id=2 --log-bin=mysql-bin --binlog-format=row
+services:
+  master-database:
+    image: mysql/mysql-server:5.7
+    container_name: master-database
+    hostname: master-database
+    networks:
+      - database-group-net
     environment:
-      MYSQL_ROOT_PASSWORD: your_super_secure_root_password # Same password for both
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: replication_user
-      MYSQL_PASSWORD: your_super_secure_replication_password
-    # Map the container port (3306) to a different host machine port (3307 in this case)
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: "password"
     ports:
-      - "3307:3306"
+      - "33306:3306"
+    volumes:
+      # local:container 
+      - ./data/master/config/my.cnf:/etc/mysql/my.cnf
+      - ./data/master/data:/home/docker/data
+    command:
+      - --server-id=1
+      - --log-bin=mysql-bin-1.log
+      - --enforce-gtid-consistency=ON
+      - --log-slave-updates=ON
+      - --gtid-mode=ON
+      - --transaction-write-set-extraction=XXHASH64
+      - --binlog-checksum=NONE
+      - --master-info-repository=TABLE
+      - --relay-log-info-repository=TABLE
+      - --plugin-load=group_replication.so
+      - --relay-log-recovery=ON
+      - --loose-group-replication-start-on-boot=OFF
+      - --loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+      - --loose-group-replication-local-address=master-database:6606
+      - --loose-group-replication-group-seeds=master-database:6606,slave-database:6606
+      - --loose-group-replication-single-primary-mode=ON
+      - --loose-group-replication-enforce-update-everywhere-checks=OFF
+
+  slave-database:
+    image: mysql/mysql-server:5.7
+    container_name: slave-database
+    hostname: slave-database
+    depends_on:
+      - master-database
+    networks:
+      - database-group-net
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: "password"
+    ports:
+      - "33307:3306"
+    volumes:
+      # local:container 
+      - ./data/slave/config/my.cnf:/etc/mysql/my.cnf
+      - ./data/slave/data:/home/docker/data
+    command:
+      - --server-id=2
+      - --log-bin=mysql-bin-1.log
+      - --enforce-gtid-consistency=ON
+      - --log-slave-updates=ON
+      - --gtid-mode=ON
+      - --transaction-write-set-extraction=XXHASH64
+      - --binlog-checksum=NONE
+      - --master-info-repository=TABLE
+      - --relay-log-info-repository=TABLE
+      - --plugin-load=group_replication.so
+      - --relay-log-recovery=ON
+      - --loose-group-replication-start-on-boot=OFF
+      - --loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+      - --loose-group-replication-local-address=slave-database:6606
+      - --loose-group-replication-group-seeds=master-database:6606,slave-database:6606
+      - --loose-group-replication-single-primary-mode=ON
+      - --loose-group-replication-enforce-update-everywhere-checks=OFF
+      - --read-only=ON

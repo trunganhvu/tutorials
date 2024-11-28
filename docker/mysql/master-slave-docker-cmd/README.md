@@ -98,7 +98,7 @@ stop slave;
 ```
 
 ## Fill  mysql-bin-1.000003 và 749 từ master
-> Check lại MASTER_HOST trong inspect master 
+> Check lại MASTER_HOST trong inspect master (ipaddress)
 ```sh
 CHANGE MASTER TO
     MASTER_HOST = '172.27.0.2',
@@ -115,9 +115,9 @@ show slave status\G
 ```sh
 docker exec -it master-database bash
 mysql -u root -p
-show database;
+show databases;
 create database anhvt;
-show database;
+show databases;
 use anhvt;
 create table test(id bigint, name varchar(100));
 show tables;
@@ -127,7 +127,7 @@ show tables;
 ```sh
 docker exec -it master-database bash
 mysql -u root -p
-show database;
+show databases;
 -- database anhvt async from master
 use anhvt;
 show tables;
