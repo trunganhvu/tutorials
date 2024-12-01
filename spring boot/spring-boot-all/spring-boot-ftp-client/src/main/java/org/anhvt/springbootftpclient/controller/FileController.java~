@@ -1,0 +1,4 @@
+package org.anhvt.springbootftpclient.controller;
+
+public class FileController {
+}

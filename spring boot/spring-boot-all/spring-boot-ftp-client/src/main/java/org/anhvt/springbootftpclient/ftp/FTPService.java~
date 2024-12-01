@@ -1,0 +1,4 @@
+package org.anhvt.springbootftpclient.ftp;
+
+public class FTPService {
+}

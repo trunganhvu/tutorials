@@ -1,0 +1,13 @@
+export const IP_ADDRESS = 'universities.hipolabs.com';
+export const PORT_API = '8080';
+export const PORT_WEB_APP = '4200';
+export const URL_CALL_API = 'http://' + IP_ADDRESS + ':' + PORT_API + '/api';
+export const URL_CALL_API_HTTP = 'http://' + IP_ADDRESS;
+export const URL_CALL_API_HTTPS = 'https://' + IP_ADDRESS;
+export const URL_AVATAR = 'http://' + IP_ADDRESS + ':' + PORT_API + '/api/images/avatar/';
+export const URL_WEP_APP = 'http://' + IP_ADDRESS + ':' + PORT_WEB_APP + '/';
+export const URL_PAGE_LOGIN = '/login';
+export const URL_PAGE_REGISTER = '/user/register';
+export const DEFAULT_LOGIN = '/home';
+export const AUTHORIZATION = "authorization";
+// https://api.agify.io?name=meelad
