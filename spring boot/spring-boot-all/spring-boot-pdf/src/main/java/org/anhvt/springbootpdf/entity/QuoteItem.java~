@@ -1,0 +1,4 @@
+package org.anhvt.springbootpdf.entity;
+
+public record QuoteItem() {
+}
