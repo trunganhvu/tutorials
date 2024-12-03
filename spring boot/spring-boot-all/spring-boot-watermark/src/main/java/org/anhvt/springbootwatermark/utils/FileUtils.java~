@@ -1,0 +1,4 @@
+package org.anhvt.springbootwatermark.utils;
+
+public class FileUtils {
+}
