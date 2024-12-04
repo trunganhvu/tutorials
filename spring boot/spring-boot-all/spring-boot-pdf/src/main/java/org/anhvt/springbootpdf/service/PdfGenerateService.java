@@ -29,6 +29,9 @@ public class PdfGenerateService {
     @Value("${pdf.directory}")
     private String pdfDirectory;
 
+    @Value("${signature}")
+    private String signature;
+
     public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName) throws IOException {
         String uuidFolder = UUID.randomUUID().toString();
         String workFolder = pdfDirectory + "/" + uuidFolder;
@@ -37,6 +40,7 @@ public class PdfGenerateService {
             Files.createDirectories(root);
         }
 
+        data.put("signature", signature);
         Context context = new Context();
         context.setVariables(data);
 

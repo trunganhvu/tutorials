@@ -1,0 +1,62 @@
+package org.anhvt.springbootpdf.service;
+
+import com.itextpdf.text.DocumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.UUID;
+
+@Service
+public class PdfGenerateService {
+    private Logger logger = LoggerFactory.getLogger(PdfGenerateService.class);
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    @Value("${pdf.directory}")
+    private String pdfDirectory;
+
+    private String signature = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAYAAADGFbfiAAAAAXNSR0IArs4c6QAACz5JREFUeF7t3T2LJVUQBuBaP8BIcz9AQ0VjMdN/oolgprGGGmsmmOg/0UyMFQ01UMFQExX8mpZpuQ6zc7vr3uo+U/MsLCJ7T/Wpp872u/f27sy98IMAAQIECCQE7iXWWEKAAAECBEKAOAQECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKTaLCBAgQECAOAMECBAgkBIQICk2iwgQIEBAgDgDBAgQIJASECApNosIECBAQIA4AwQIECCQEhAgKbY7t+iviHjgznWtYQIEbhQQIOMfkL8PtrjHvObrT/8VIuOfFzsksJnAHjekzZprcKHD8NjrBr53gDUYoxYI9BQQIGPPdb557zknATL2GbE7ArsJ7Hlj2q3pW3RhAXKLhmWrBO6agAAZe+IjBMj0AH0+J87L2OfF7ghsKuCGsCn36ouNECA/R8Sjlzt3XlaP0AICfQXcEMae7QgBMgmNso+xp2V3BO6YgAAZe+Cj3LhH2cfY07I7AndMQICMPfBRbtyj7GPsadkdgTsmIEDGHvgoN+5R9jH2tOyOwB0TECBjD3yUG/e8j18i4rGxyeyOAIGt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";
+
+    public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName) throws IOException {
+        String uuidFolder = UUID.randomUUID().toString();
+        String workFolder = pdfDirectory + "/" + uuidFolder;
+        Path root = Paths.get(workFolder);
+        if (!Files.exists(root)) {
+            Files.createDirectories(root);
+        }
+
+        data.put("signature", signature);
+        Context context = new Context();
+        context.setVariables(data);
+
+        String htmlContent = templateEngine.process(templateName, context);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(workFolder + "/" + pdfFileName);
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocumentFromString(htmlContent);
+            renderer.layout();
+            renderer.createPDF(fileOutputStream, false);
+            renderer.finishPDF();
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage(), e);
+        } catch (DocumentException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+}

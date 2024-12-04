@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chữ ký điện tử</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #signature-pad {
+            border: 1px solid #ccc;
+            width: 400px;
+            height: 200px;
+            position: relative;
+            cursor: crosshair;
+        }
+        .button-group {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Ký hợp đồng điện tử</h1>
+<div id="signature-pad"></div>
+<div class="button-group">
+    <button id="clear-signature">Xóa chữ ký</button>
+    <button id="submit-signature">Gửi chữ ký</button>
+</div>
+<script src="signature.js"></script>
+</body>
+</html>
