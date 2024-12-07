@@ -1,0 +1,17 @@
+<configuration>
+
+    <!-- Define the custom converter for logging -->
+    <conversionRule conversionWord="mask" converterClass="org.anhvt.springbootmasksensitivelog.config.LogMaskConverter"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} - %mask(%msg) %n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
