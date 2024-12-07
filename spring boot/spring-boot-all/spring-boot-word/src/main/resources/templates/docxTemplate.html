@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+<body>
+<h1 th:text="${title}"></h1>
+<p th:text="${content}"></p>
+<table>
+    <tr>
+        <th>Column 1</th>
+        <th>Column 2</th>
+    </tr>
+    <tr th:each="item : ${rows}">
+        <td th:text="${item.column1}"></td>
+        <td th:text="${item.column2}"></td>
+    </tr>
+</table>
+</body>
+</html>
