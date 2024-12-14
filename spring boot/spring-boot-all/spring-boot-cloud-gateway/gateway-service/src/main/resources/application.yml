@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway-service   # Tên gateway service
+  cloud:
+    gateway:
+      routes:                   # Tạo routes cho gateway
+        - id: demo-service      # Tên route demo
+          uri: http://localhost:9090    # Uri cua service demo
+          predicates:
+            - Path=/demo-service/**     # Path cua service demo. Mapping với server.servlet.context-path của service demo

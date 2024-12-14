@@ -1,15 +1,17 @@
+# ElasticSearch + Kibana + Docker
+## Network
 docker network create elastic
 
-# Elastic 
+## Elastic 
 docker run --name elasticsearch --net elastic -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "xpack.security.enabled=false" elasticsearch:8.16.1
 
-# Kibana
+## Kibana
 docker run -d --name kibana --net elastic -p 5601:5601 -e "ELASTICSEARCH_HOSTS=http://elasticsearch:9200" kibana:8.16.1
 
-# URL
+## URL
 http://localhost:5601/
 
-# Mapping structure
+## Mapping structure
 Databases ~ Indices
 Tables ~ Mappings (Types < 6.0 ver) 
 Records ~ Documents
@@ -332,6 +334,9 @@ PUT /<index_name>
         "type": "<field_type>"
       }
     }
+  },
+  "aliases": {
+    "<alias_name>": {}
   }
 }
 ```
@@ -353,6 +358,24 @@ PUT /products
             },
             "in_stock": {
                 "type": "boolean"
+            }
+        }
+    },
+    "aliases": {
+        "available_products": {
+            "filter": {
+                "term": {
+                    "in_stock": true
+                }
+            }
+        },
+        "cheap_products": {
+            "filter": {
+                "range": {
+                    "price": {
+                        "lte": 100
+                    }
+                }
             }
         }
     }
@@ -417,7 +440,7 @@ GET /products/_settings?pretty
 
 
 ## Close Index
->  Tạm thời vô hiệu hóa việc ghi hoặc tìm kiếm dữ liệu trong index. Open để bỏ vô hiệu hóa inde
+>  Tạm thời vô hiệu hóa việc ghi hoặc tìm kiếm dữ liệu trong index. Open để bỏ vô hiệu hóa index
 ```sh
 POST /products/_close
 POST /products/_open
@@ -434,7 +457,12 @@ POST /products/_open
   }
 }
 ```
+## Refresh Index
+```sh
+GET /<index>/_refresh
 
+GET /products/_refresh
+```
 ## Search all
 ```sh
 GET /products/_search?pretty
@@ -527,6 +555,460 @@ GET /products/_doc/bGtnu5MBMTEWbbDb_Cf4?pretty
     "name": "Laptop",
     "price": 1000,
     "in_stock": "true"
+  }
+}
+```
+
+## Search match all
+```sh
+GET /products/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+```json
+{
+  "took": 9,
+  "timed_out": false,
+  "_shards": {
+    "total": 3,
+    "successful": 3,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 1,
+      "relation": "eq"
+    },
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "products",
+        "_id": "bGtnu5MBMTEWbbDb_Cf4",
+        "_score": 1,
+        "_source": {
+          "name": "Laptop",
+          "price": 1000,
+          "in_stock": "true"
+        }
+      }
+    ]
+  }
+}
+```
+
+## Search match one field
+> name like "%laptop%" ~ chứa từ "laptop" trong field
+```sh
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "laptop"
+    }
+  }
+}
+```
+
+## Search term field
+> name like "%laptop%" ~ chứa từ "laptop" trong field
+```sh
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "name": "laptop"
+    }
+  }
+}
+```
+
+## Search term field
+> name = "laptop" ~ chính xác "laptop" trong field
+```sh
+GET /products/_search
+{
+  "query": {
+    "term": {
+      "name.keyword": "laptop"
+    }
+  }
+}
+```
+
+## Search conditions
+> AND, OR, NOT logic. Must, should, must_not: Search documents within score of documents
+> filter: get all documents match condition filter
+
+### must ~ AND
+```sh
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "price": {
+              "lte": 500
+            }
+          }
+        },
+        {
+          "term": {
+            "in_stock": true
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### should ~ OR (name like 'laptop' OR price < 300)
+```sh
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "name": "laptop"
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "lte": 300
+            }
+          }
+        }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+```
+
+### must_not ~ AND NOT ()
+```sh
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "term": {
+            "in_stock": false
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### must + should + must_not
+```sh
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "price": {
+              "lte": 500
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "name": "laptop"
+          }
+        },
+        {
+          "match": {
+            "name": "phone"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "in_stock": false
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### filter
+> Result documents same with must, should but without SCORE
+```sh
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "lte": 5000
+            }
+          }
+        },
+        {
+          "term": {
+            "in_stock": true
+          }
+        },
+        {
+            "match": {
+              "name": "pro2023"
+            }
+        }
+      ]
+    }
+  }
+}
+```
+
+## Search in range
+```sh
+GET /products/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 100,
+        "lte": 1000
+      }
+    }
+  }
+}
+```
+
+## Search within wildcard
+```sh
+GET /products/_search
+{
+  "query": {
+    "wildcard": {
+      "name.keyword": "lap*"
+    }
+  }
+}
+```
+
+## Search with swrong value of condition
+> Tìm kiếm với value có thể sai chính tả
+```sh
+GET /products/_search
+{
+  "query": {
+    "fuzzy": {
+      "name": {
+        "value": "laptap",
+        "fuzziness": "AUTO"
+      }
+    }
+  }
+}
+```
+
+## Sort
+```sh
+GET /products/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "price": {
+        "order": "desc"
+      }
+    },
+    {
+      "name.keyword": {
+        "order": "desc",
+        "unmapped_type" : "long"
+      }
+    }
+  ]
+}
+```
+
+## Limit, size, paging documents
+```sh
+GET /products/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 2
+}
+```
+
+## aggregation (thống kê)
+```sh
+GET /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "group_by_stock": {
+      "terms": {
+        "field": "in_stock"
+      }
+    },
+    "price_ranges": {
+      "range": {
+        "field": "price",
+        "ranges": [
+          { "to": 50 },
+          { "from": 50, "to": 100 },
+          { "from": 100 }
+        ]
+      }
+    },
+    "average_price": {
+      "avg": {
+        "field": "price"
+      }
+    },
+    "total_price": {
+      "sum": {
+        "field": "price"
+      }
+    },
+    "min_price": {
+      "min": {
+        "field": "price"
+      }
+    },
+    "max_price": {
+      "max": {
+        "field": "price"
+      }
+    },
+    "price_stats": {
+      "stats": {
+        "field": "price"
+      }
+    }
+  }
+}
+```
+
+```json
+{
+  "took": 1,
+  "timed_out": false,
+  "_shards": {
+    "total": 3,
+    "successful": 3,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "max_price": {
+      "value": 1000
+    },
+    "price_ranges": {
+      "buckets": [
+        {
+          "key": "*-50.0",
+          "to": 50,
+          "doc_count": 0
+        },
+        {
+          "key": "50.0-100.0",
+          "from": 50,
+          "to": 100,
+          "doc_count": 0
+        },
+        {
+          "key": "100.0-*",
+          "from": 100,
+          "doc_count": 3
+        }
+      ]
+    },
+    "min_price": {
+      "value": 1000
+    },
+    "total_price": {
+      "value": 3000
+    },
+    "average_price": {
+      "value": 1000
+    },
+    "group_by_stock": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 0,
+      "buckets": [
+        {
+          "key": 1,
+          "key_as_string": "true",
+          "doc_count": 3
+        }
+      ]
+    },
+    "price_stats": {
+      "count": 3,
+      "min": 1000,
+      "max": 1000,
+      "avg": 1000,
+      "sum": 3000
+    }
+  }
+}
+```
+
+## Search full-text in one field
+> Search name include all words not care order
+```sh
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": {
+        "query": "pro2021 laptop",
+        "operator": "and"
+      }
+    }
+  }
+}
+```
+
+## Search in multi fields
+> Search in 2 field 
+```sh
+GET /products/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "1000 pro2023",
+      "fields": ["name", "description"]
+    }
   }
 }
 ```
