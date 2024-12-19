@@ -1,0 +1,52 @@
+package org.anhvt.springbootpostgrebackend.exception;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.ErrorMessage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.io.IOException;
+import java.util.Optional;
+
+@ControllerAdvice
+@Slf4j
+public class ExceptionAdvide {
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handlerCommonException(CommonException ex) {
+        log.error(String.format("Common error: %s %s %s", ex.getCode(), ex.getStatus(), ex.getMessage()));
+        return new ResponseEntity<>(
+                new ErrorMessage(ex.getCode(), ex.getMessage(), ex.getStatus(), null),ex.getStatus());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handlerException(Exception ex) {
+        log.error(String.format("Common error: %s %s %s", ex.getClass(), ex.getCause(), ex.getMessage()));
+        return new ResponseEntity<>(
+                new ErrorMessage("9999", ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handlerValidateException(IOException ex) {
+        log.error(String.format("Validate error: %s %s %s", ex.getClass(), ex.getCause(), ex.getMessage()));
+        return new ResponseEntity<>(
+                new ErrorMessage("9000", ex.getMessage(), HttpStatus.BAD_REQUEST, null),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> handlerUserException(UserException ex) {
+        log.error(String.format("Validate error: %s %s %s", ex.getClass(), ex.getCause(), ex.getMessage()));
+        log.error(String.format("Validate error: %s %s %s", ex.getUserId(), ex.getCode(), ex.getMessage()));
+//        ErrorMessage errorMessage = new ErrorMessage(ex.getCode(), ex.getMessage().toString(), HttpStatus.BAD_REQUEST);
+//        ErrorMessage.ErrorData(ex.getUserId());
+        return new ResponseEntity<>(
+                new ErrorMessage(ex.getCode(),
+                        ex.getMessage().toString(),
+                        HttpStatus.BAD_REQUEST,
+                        Optional.of(new ErrorMessage.ErrorData(ex.getUserId()))),
+                HttpStatus.BAD_REQUEST);
+    }
+}

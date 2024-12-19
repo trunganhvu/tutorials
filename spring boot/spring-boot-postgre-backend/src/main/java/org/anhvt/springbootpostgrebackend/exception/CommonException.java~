@@ -1,0 +1,4 @@
+package org.anhvt.springbootpostgrebackend.exception;
+
+public class CommonException {
+}

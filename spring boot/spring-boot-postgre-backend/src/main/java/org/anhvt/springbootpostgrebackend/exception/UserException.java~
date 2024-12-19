@@ -1,0 +1,19 @@
+package org.anhvt.springbootpostgrebackend.exception;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+
+@Getter
+@Setter
+public class UserException extends CommonException{
+    private final String userId;
+//    public UserException(String code, String message, HttpStatus status, String userId) {
+//        super(code, message, status);
+//        this.userId = userId;
+//    }
+    public UserException(String message, String userId) {
+        this.userId = userId;
+
+    }
+}
