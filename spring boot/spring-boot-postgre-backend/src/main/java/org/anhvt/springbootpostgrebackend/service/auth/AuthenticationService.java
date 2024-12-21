@@ -45,7 +45,7 @@ public class AuthenticationService {
         // Authenticate and generate token
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         String refreshToken = tokenProvider.generateRefreshToken(authentication);
-        String accessToken = tokenProvider.generateAccessToken(authentication, getTopCharRefreshToken(refreshToken));
+        String accessToken = tokenProvider.generateAccessToken(authentication, SecurityUtils.encodeToken(refreshToken));
 
         // Get IP Address and User-Agent
         Map<String, String> requestInfo = RequestUtils.getRequestInfo(request);
@@ -70,7 +70,7 @@ public class AuthenticationService {
 
         // Create new token
         String accessToken = tokenProvider.generateAccessToken(authentication,
-                getTopCharRefreshToken(refreshTokenRequest.getRefreshToken()));
+                SecurityUtils.encodeToken(refreshTokenRequest.getRefreshToken()));
 
         return new AuthResponse(accessToken, refreshTokenRequest.getRefreshToken());
     }
@@ -84,7 +84,7 @@ public class AuthenticationService {
         userLoginHistoryService.deleteUserLoginHistory(logoutRequest.getRefreshToken());
 
         // Add to blacklist
-        redisPublisher.publishSessionBlacklist(username + "|" + this.getTopCharRefreshToken(logoutRequest.getRefreshToken()));
+        redisPublisher.publishSessionBlacklist(username + "|" + SecurityUtils.encodeToken(logoutRequest.getRefreshToken()));
 
         // Invalidate session
         HttpSession session = request.getSession(false);

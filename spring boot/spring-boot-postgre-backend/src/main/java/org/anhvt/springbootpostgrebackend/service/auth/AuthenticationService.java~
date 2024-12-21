@@ -16,7 +16,6 @@ import org.anhvt.springbootpostgrebackend.queue.pub.RedisMessagePublisher;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.anhvt.springbootpostgrebackend.utils.http.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -68,12 +67,15 @@ public class AuthenticationService {
         String username = jws.get().getPayload().getSubject();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        // Create new token
         String accessToken = tokenProvider.generateAccessToken(authentication,
                 getTopCharRefreshToken(refreshTokenRequest.getRefreshToken()));
 
         return new AuthResponse(accessToken, refreshTokenRequest.getRefreshToken());
     }
 
+    @Transactional
     public void logout(HttpServletRequest request, LogoutRequest logoutRequest) {
         String username = SecurityUtils.getCurrentUserLogin()
                 .orElseThrow(() -> new BusinessException(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getMessage()));
