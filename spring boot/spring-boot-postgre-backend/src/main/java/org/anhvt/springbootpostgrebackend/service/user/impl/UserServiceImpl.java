@@ -1,6 +1,6 @@
 package org.anhvt.springbootpostgrebackend.service.user.impl;
 
-import org.anhvt.springbootpostgrebackend.entity.User;
+import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.anhvt.springbootpostgrebackend.queue.pub.RedisMessagePublisher;
 import org.anhvt.springbootpostgrebackend.repository.UserRepository;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;

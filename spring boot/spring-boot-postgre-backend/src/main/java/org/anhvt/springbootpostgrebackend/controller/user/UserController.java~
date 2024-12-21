@@ -2,7 +2,7 @@ package org.anhvt.springbootpostgrebackend.controller.user;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.anhvt.springbootpostgrebackend.entity.auth.User;
+import org.anhvt.springbootpostgrebackend.entity.User;
 import org.anhvt.springbootpostgrebackend.model.CustomUserDetails;
 import org.anhvt.springbootpostgrebackend.payload.dto.user.UserDto;
 import org.anhvt.springbootpostgrebackend.payload.response.APIResponse;

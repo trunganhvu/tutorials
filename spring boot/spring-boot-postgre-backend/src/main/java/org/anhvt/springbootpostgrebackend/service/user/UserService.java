@@ -1,6 +1,6 @@
 package org.anhvt.springbootpostgrebackend.service.user;
 
-import org.anhvt.springbootpostgrebackend.entity.User;
+import org.anhvt.springbootpostgrebackend.entity.auth.User;
 
 import java.util.List;
 import java.util.Optional;

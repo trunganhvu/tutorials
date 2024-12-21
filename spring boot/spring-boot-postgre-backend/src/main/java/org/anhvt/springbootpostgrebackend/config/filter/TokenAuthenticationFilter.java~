@@ -1,25 +1,20 @@
 package org.anhvt.springbootpostgrebackend.config.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.anhvt.springbootpostgrebackend.config.security.JwtAuthenticationEntryPoint;
 import org.anhvt.springbootpostgrebackend.config.security.TokenProvider;
 import org.anhvt.springbootpostgrebackend.exception.BusinessException;
-import org.anhvt.springbootpostgrebackend.exception.ErrorResponse;
-import org.anhvt.springbootpostgrebackend.payload.response.APIResponse;
+import org.anhvt.springbootpostgrebackend.utils.constant.RedisKey;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -35,6 +30,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     @Autowired
     private TokenProvider tokenProvider;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -47,7 +44,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     .ifPresent(jws -> {
                         String username = jws.getPayload().getSubject();
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        // Check is logout user
+                        String key = RedisKey.SESSION_BLACKLIST + username;
+                        String refreshTokenTopChar = (String) jws.getPayload().get("refresh_token_top_char");
+                        redisTemplate.opsForSet().members(key);
+                        if (false) {
+                            throw new BusinessException(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getMessage());
+                        }
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                                null, userDetails.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     });
@@ -67,43 +72,5 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         return Optional.empty();
     }
 
-//    private void handleErrorResponse(HttpServletResponse response, HttpStatus status, String errorCode, String errorMessage)
-//            throws IOException {
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        response.setStatus(status.value());
-//
-//        ErrorResponse errorResponse = new ErrorResponse(errorCode, errorMessage);
-//        APIResponse<ErrorResponse> apiResponse = APIResponse.<ErrorResponse>builder()
-//                .status(errorCode)
-//                .message(errorMessage)
-//                .response(errorResponse)
-//                .build();
-//
-//        // Chuyển đối tượng APIResponse thành JSON
-//        ObjectMapper mapper = new ObjectMapper();
-//        String json = mapper.writeValueAsString(apiResponse);
-//        response.getWriter().write(json);
-//        response.getWriter().flush();
-//    }
-
-//    @Override
-//    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        response.setStatus(response.getStatus());
-//
-//        ErrorResponse errorResponse = new ErrorResponse(String.valueOf(response.getStatus()), authException.getMessage());
-//        APIResponse<ErrorResponse> apiResponse = APIResponse.<ErrorResponse>builder()
-//                .status(ResponseCode.UNAUTHORIZED.getCode())
-//                .message(ResponseCode.UNAUTHORIZED.getMessage())
-//                .response(errorResponse)
-//                .build();
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//        String json = mapper.writeValueAsString(apiResponse);
-//        response.getWriter().write(json);
-//        response.getWriter().flush();
-//    }
 }
 

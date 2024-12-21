@@ -17,14 +17,10 @@ public class RedisMessagePublisher implements MessagePublisher {
     @Autowired
     private ChannelTopic topicArticle;
 
-//    public RedisMessagePublisher() {
-//    }
-//
-//    public RedisMessagePublisher(final RedisTemplate<String, Object> redisTemplate, final ChannelTopic topic) {
-//        this.redisTemplate = redisTemplate;
-//        this.topic = topic;
-//    }
+    @Autowired
+    private ChannelTopic topicSessionBlacklist;
 
+    @Override
     public void publishUser(final String message) {
         redisTemplate.convertAndSend(topicUser.getTopic(), message);
     }
@@ -32,5 +28,11 @@ public class RedisMessagePublisher implements MessagePublisher {
     @Override
     public void publishArticle(String message) {
         redisTemplate.convertAndSend(topicArticle.getTopic(), message);
+    }
+
+    @Override
+    public void publishSessionBlacklist(String message) {
+        System.out.println("pub logout");
+        redisTemplate.convertAndSend(topicSessionBlacklist.getTopic(), message);
     }
 }

@@ -1,20 +1,20 @@
 package org.anhvt.springbootpostgrebackend.controller.auth;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.anhvt.springbootpostgrebackend.config.security.SecurityConfig;
-import org.anhvt.springbootpostgrebackend.config.security.TokenProvider;
-import org.anhvt.springbootpostgrebackend.entity.User;
+import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.anhvt.springbootpostgrebackend.payload.request.auth.LoginRequest;
+import org.anhvt.springbootpostgrebackend.payload.request.auth.LogoutRequest;
+import org.anhvt.springbootpostgrebackend.payload.request.auth.RefreshTokenRequest;
 import org.anhvt.springbootpostgrebackend.payload.request.auth.SignUpRequest;
 import org.anhvt.springbootpostgrebackend.payload.response.APIResponse;
 import org.anhvt.springbootpostgrebackend.payload.response.auth.AuthResponse;
+import org.anhvt.springbootpostgrebackend.service.auth.AuthenticationService;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,17 +30,17 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private TokenProvider tokenProvider;
+    private AuthenticationService authenticateService;
 
     @PostMapping("/login")
-    public APIResponse<Object> login(@Valid @RequestBody LoginRequest loginRequest) {
-        String token = authenticateAndGetToken(loginRequest.username(), loginRequest.password());
+    public APIResponse<Object> login(@Valid @RequestBody LoginRequest loginRequest,
+                                     HttpServletRequest request) {
+        AuthResponse response = authenticateService.authenticate(loginRequest.username(),
+                loginRequest.password(), request);
         return APIResponse.builder()
                 .status(ResponseCode.OK.getCode())
                 .message(ResponseCode.OK.getMessage())
-                .response(new AuthResponse(token))
+                .response(response)
                 .build();
     }
 
@@ -56,17 +56,35 @@ public class AuthController {
 
         userService.saveUser(mapSignUpRequestToUser(signUpRequest));
 
-        String token = authenticateAndGetToken(signUpRequest.username(), signUpRequest.password());
+//        AuthResponse response = authenticateService.authenticate(signUpRequest.username(),
+//                signUpRequest.password());
         return APIResponse.builder()
                 .status(ResponseCode.OK.getCode())
                 .message(ResponseCode.OK.getMessage())
-                .response(new AuthResponse(token))
+                .response("Signup success")
                 .build();
     }
 
-    private String authenticateAndGetToken(String username, String password) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        return tokenProvider.generate(authentication);
+    @PostMapping("/refresh")
+    public APIResponse<Object> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        AuthResponse response = authenticateService.refreshToken(refreshTokenRequest);
+
+        return APIResponse.builder()
+                .status(ResponseCode.OK.getCode())
+                .message(ResponseCode.OK.getMessage())
+                .response(response)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    public APIResponse<Object> logout(HttpServletRequest request,
+                                      @Valid @RequestBody LogoutRequest logoutRequest) {
+        authenticateService.logout(request, logoutRequest);
+
+        return APIResponse.builder()
+                .status(ResponseCode.LOGOUT_SUCCESS.getCode())
+                .message(ResponseCode.LOGOUT_SUCCESS.getMessage())
+                .build();
     }
 
     private User mapSignUpRequestToUser(SignUpRequest signUpRequest) {

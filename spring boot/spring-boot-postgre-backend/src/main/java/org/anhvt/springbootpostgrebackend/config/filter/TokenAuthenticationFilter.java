@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.anhvt.springbootpostgrebackend.config.security.TokenProvider;
 import org.anhvt.springbootpostgrebackend.exception.BusinessException;
+import org.anhvt.springbootpostgrebackend.utils.constant.RedisKey;
+import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -27,6 +31,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     @Autowired
     private TokenProvider tokenProvider;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -39,7 +45,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     .ifPresent(jws -> {
                         String username = jws.getPayload().getSubject();
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        // Check is logout user in blacklist
+                        String key = RedisKey.SESSION_BLACKLIST + username;
+                        String refreshTokenTopChar = (String) jws.getPayload().get("refresh_token_top_char");
+                        if (Objects.requireNonNull(redisTemplate.opsForSet().members(key)).contains(refreshTokenTopChar)) {
+                            throw new BusinessException(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getMessage());
+                        }
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                                null, userDetails.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     });

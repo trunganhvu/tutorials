@@ -1,6 +1,6 @@
 package org.anhvt.springbootpostgrebackend.service.auth;
 
-import org.anhvt.springbootpostgrebackend.entity.User;
+import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.anhvt.springbootpostgrebackend.exception.BusinessException;
 import org.anhvt.springbootpostgrebackend.model.CustomUserDetails;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;

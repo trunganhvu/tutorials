@@ -16,7 +16,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<APIResponse<ErrorResponse>> handleBusinessException(BusinessException ex) {
-        log.error(String.format("BusinessException error: %s %s %s", ex.getCode(), ex.getMessage()));
+        log.error(String.format("BusinessException error: %s %s", ex.getCode(), ex.getMessage()));
         ErrorResponse errorResponse = new ErrorResponse(ex.getCode(), ex.getMessage());
         APIResponse<ErrorResponse> apiResponse = APIResponse.<ErrorResponse>builder()
                 .status(ResponseCode.OPERATION_FAILED.getCode())

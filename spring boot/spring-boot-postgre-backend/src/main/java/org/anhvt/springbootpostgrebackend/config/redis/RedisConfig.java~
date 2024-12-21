@@ -55,7 +55,7 @@ public class RedisConfig {
 
     @Bean
     MessageListenerAdapter messageSessionBlackListListener() {
-        return new MessageListenerAdapter(new SessionBlackListRedisMessageSubscriber(redisTemplate()));
+        return new MessageListenerAdapter(new SessionBlackListRedisMessageSubscriber());
     }
 
     @Bean

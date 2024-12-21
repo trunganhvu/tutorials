@@ -5,7 +5,6 @@ public enum ResponseCode {
     // Success Codes
     OK("S200", "Success"),
     NO_CONTENT("S204", "No Content"),
-    LOGOUT_SUCCESS("S249", "Logout Success"),
 
     // Client Error Codes
     BAD_REQUEST("S400", "Bad Request"),

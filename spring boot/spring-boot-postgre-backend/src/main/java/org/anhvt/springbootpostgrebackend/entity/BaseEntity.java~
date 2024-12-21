@@ -3,6 +3,7 @@ package org.anhvt.springbootpostgrebackend.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,8 +17,8 @@ import java.time.Instant;
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public class BaseEntity {
-    @Column(name = "deleted_flg")
-    private boolean deletedFlg;
+    @Column(name = "deleted_fly")
+    private boolean deletedFly;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)

@@ -1,4 +1,4 @@
-package org.anhvt.springbootpostgrebackend.entity;
+package org.anhvt.springbootpostgrebackend.entity.auth;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.anhvt.springbootpostgrebackend.entity.BaseEntity;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {

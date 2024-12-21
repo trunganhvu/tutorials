@@ -19,8 +19,8 @@ public class ExceptionAdvice {
         log.error(String.format("BusinessException error: %s %s %s", ex.getCode(), ex.getMessage()));
         ErrorResponse errorResponse = new ErrorResponse(ex.getCode(), ex.getMessage());
         APIResponse<ErrorResponse> apiResponse = APIResponse.<ErrorResponse>builder()
-                .status(ResponseCode.SERVER_ERROR.getCode())
-                .message(ResponseCode.SERVER_ERROR.getMessage())
+                .status(ResponseCode.OPERATION_FAILED.getCode())
+                .message(ResponseCode.OPERATION_FAILED.getMessage())
                 .response(errorResponse)
                 .build();
         return new ResponseEntity<>(apiResponse, HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS);
@@ -28,61 +28,23 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(SystemException.class)
     public ResponseEntity<APIResponse<ErrorResponse>> handleSystemException(SystemException ex) {
-//        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "SYSTEM_ERROR");
-//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-        ErrorResponse errorResponse = new ErrorResponse(ex.getCode(), ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("SYSTEM_ERROR", ex.getMessage());
         APIResponse<ErrorResponse> apiResponse = APIResponse.<ErrorResponse>builder()
-                .status(ResponseCode.SERVER_ERROR.getCode())
-                .message(ResponseCode.SERVER_ERROR.getMessage())
+                .status(ResponseCode.SERVER_SYSTEM_EXCEPTION.getCode())
+                .message(ResponseCode.SERVER_SYSTEM_EXCEPTION.getMessage())
                 .response(errorResponse)
                 .build();
         return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // Xử lý các exception khác
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<ErrorResponse>> handleGenericException(Exception ex) {
-        ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), "UNKNOWN_ERROR");
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler
-    public APIResponse<Object> handlerCommonException(ErrorResponse ex) {
-        log.error(String.format("Common error: %s %s %s", ex.getCode(), ex.getStatus(), ex.getMessage()));
-        return APIResponse.builder()
-                .status(ResponseCode.SERVER_ERROR.getCode())
-                .message(ResponseCode.SERVER_ERROR.getMessage())
-                .response(ex.getMessage())
+        ErrorResponse errorResponse = new ErrorResponse(ResponseCode.INTERNAL_SERVER_EXCEPTION.name(), ex.getMessage());
+        APIResponse<ErrorResponse> apiResponse = APIResponse.<ErrorResponse>builder()
+                .status(ResponseCode.INTERNAL_SERVER_EXCEPTION.getCode())
+                .message(ResponseCode.INTERNAL_SERVER_EXCEPTION.getMessage())
+                .response(errorResponse)
                 .build();
-    }
-
-    @ExceptionHandler
-    public APIResponse<Object> handlerException(Exception ex) {
-        log.error(String.format("Common error: %s %s %s", ex.getClass(), ex.getCause(), ex.getMessage()));
-        return APIResponse.builder()
-                .status(ResponseCode.SERVER_ERROR.getCode())
-                .message(ResponseCode.SERVER_ERROR.getMessage())
-                .response(ex.getMessage())
-                .build();
-    }
-
-    @ExceptionHandler
-    public APIResponse<Object> handlerValidateException(IOException ex) {
-        log.error(String.format("Validate error: %s %s %s", ex.getClass(), ex.getCause(), ex.getMessage()));
-        return APIResponse.builder()
-                .status(ResponseCode.BAD_REQUEST.getCode())
-                .message(ResponseCode.BAD_REQUEST.getMessage())
-                .response(ex.getMessage())
-                .build();
-    }
-
-    @ExceptionHandler
-    public APIResponse<Object> handlerUserException(UserException ex) {
-        log.error(String.format("Validate error: %s %s %s", ex.getClass(), ex.getCause(), ex.getMessage()));
-        return APIResponse.builder()
-                .status(ResponseCode.NO_CONTENT.getCode())
-                .message(ResponseCode.NO_CONTENT.getMessage())
-                .response(ex.getMessage())
-                .build();
+        return new ResponseEntity<>(apiResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

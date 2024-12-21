@@ -29,14 +29,17 @@ public class TokenProvider {
     @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt.expiration.minutes}")
-    private Long jwtExpirationMinutes;
+    @Value("${app.jwt.access.token.expiration}")
+    private Long jwtAccessTokenExpiration;
+
+    @Value("${app.jwt.refresh.token.expiration}")
+    private Long jwtRefreshTokenExpiration;
 
     public static final String TOKEN_TYPE = "JWT";
-    public static final String TOKEN_ISSUER = "order-api";
-    public static final String TOKEN_AUDIENCE = "order-app";
+    public static final String TOKEN_ISSUER = "spring-boot-postgre-backend";
+    public static final String TOKEN_AUDIENCE = "frontend";
 
-    public String generate(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication, String refreshTokenTopChar) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
         List<String> roles = user.getAuthorities()
@@ -53,7 +56,7 @@ public class TokenProvider {
                 .and()
                 .signWith(Keys.hmacShaKeyFor(signingKey), Jwts.SIG.HS512)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusSeconds(60 * jwtExpirationMinutes)))
+                .expiration(Date.from(now.plusSeconds(jwtAccessTokenExpiration)))
                 .id(UUID.randomUUID().toString())
                 .issuer(TOKEN_ISSUER)
                 .audience().add(TOKEN_AUDIENCE)
@@ -62,6 +65,34 @@ public class TokenProvider {
                 .claim("rol", roles)
                 .claim("name", user.getName())
                 .claim("preferred_username", user.getUsername())
+                .claim("email", user.getEmail())
+                .claim("refresh_token_top_char", refreshTokenTopChar)
+                .compact();
+    }
+
+    public String generateRefreshToken(Authentication authentication) {
+        CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+
+        List<String> roles = user.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        byte[] signingKey = jwtSecret.getBytes();
+
+        Instant now = Instant.now();
+
+        return Jwts.builder()
+                .header().add("typ", TOKEN_TYPE)
+                .and()
+                .signWith(Keys.hmacShaKeyFor(signingKey), Jwts.SIG.HS512)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusSeconds(jwtRefreshTokenExpiration)))
+                .id(UUID.randomUUID().toString())
+                .issuer(TOKEN_ISSUER)
+                .audience().add(TOKEN_AUDIENCE)
+                .and()
+                .subject(user.getUsername())
                 .claim("email", user.getEmail())
                 .compact();
     }

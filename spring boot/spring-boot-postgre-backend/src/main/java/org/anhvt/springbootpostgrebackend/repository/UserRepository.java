@@ -1,6 +1,6 @@
 package org.anhvt.springbootpostgrebackend.repository;
 
-import org.anhvt.springbootpostgrebackend.entity.User;
+import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
