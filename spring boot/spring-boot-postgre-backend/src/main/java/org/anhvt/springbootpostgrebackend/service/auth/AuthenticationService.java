@@ -15,6 +15,8 @@ import org.anhvt.springbootpostgrebackend.payload.response.auth.AuthResponse;
 import org.anhvt.springbootpostgrebackend.queue.pub.RedisMessagePublisher;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.anhvt.springbootpostgrebackend.utils.http.RequestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,8 @@ import java.util.Optional;
 
 @Service
 public class AuthenticationService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -42,6 +46,7 @@ public class AuthenticationService {
 
     @Transactional
     public AuthResponse authenticate(String username, String password, HttpServletRequest request) {
+        LOGGER.info("Authenticate start");
         // Authenticate and generate token
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         String refreshToken = tokenProvider.generateRefreshToken(authentication);
@@ -51,12 +56,15 @@ public class AuthenticationService {
         Map<String, String> requestInfo = RequestUtils.getRequestInfo(request);
         String ipAddress = refreshToken.contains("ipAddress") ? requestInfo.get("ipAddress") : Strings.EMPTY;
         String userAgent = refreshToken.contains("userAgent") ? requestInfo.get("userAgent") : Strings.EMPTY;
+        LOGGER.info("Authenticate Info user: {} {} {}", username, ipAddress, userAgent);
+
         userLoginHistoryService.saveUserLoginHistory(username, refreshToken, ipAddress, userAgent);
 
         return new AuthResponse(accessToken, refreshToken);
     }
 
     public AuthResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        LOGGER.info("refreshToken start");
         UsernamePasswordAuthenticationToken authentication = null;
         // Validate the refresh token and check history
         Optional<Jws<Claims>> jws = tokenProvider.validateTokenAndGetJws(refreshTokenRequest.getRefreshToken());
@@ -71,12 +79,15 @@ public class AuthenticationService {
         // Create new token
         String accessToken = tokenProvider.generateAccessToken(authentication,
                 SecurityUtils.encodeToken(refreshTokenRequest.getRefreshToken()));
+        LOGGER.info("RefreshToken Info: {}", username);
 
         return new AuthResponse(accessToken, refreshTokenRequest.getRefreshToken());
     }
 
     @Transactional
     public void logout(HttpServletRequest request, LogoutRequest logoutRequest) {
+        LOGGER.info("Logout start");
+
         String username = SecurityUtils.getCurrentUserLogin()
                 .orElseThrow(() -> new BusinessException(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getMessage()));
 
@@ -94,9 +105,7 @@ public class AuthenticationService {
 
         SecurityContextHolder.getContext().setAuthentication(null);
         SecurityContextHolder.clearContext();
+        LOGGER.info("Logout end");
     }
 
-    private String getTopCharRefreshToken(String refreshToken) {
-        return refreshToken.substring(0, 6);
-    }
 }

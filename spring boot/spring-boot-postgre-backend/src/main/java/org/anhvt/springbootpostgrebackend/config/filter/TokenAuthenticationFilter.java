@@ -9,6 +9,8 @@ import org.anhvt.springbootpostgrebackend.config.security.TokenProvider;
 import org.anhvt.springbootpostgrebackend.exception.BusinessException;
 import org.anhvt.springbootpostgrebackend.utils.constant.RedisKey;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +29,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -40,6 +43,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         try {
+            LOGGER.info("TokenAuthenticationFilter Start");
             getJwtFromRequest(request)
                     .flatMap(tokenProvider::validateTokenAndGetJws)
                     .ifPresent(jws -> {
@@ -49,6 +53,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                         String key = RedisKey.SESSION_BLACKLIST + username;
                         String refreshTokenTopChar = (String) jws.getPayload().get("refresh_token_top_char");
                         if (Objects.requireNonNull(redisTemplate.opsForSet().members(key)).contains(refreshTokenTopChar)) {
+                            LOGGER.info("Logout user in blacklist: {}", username);
                             throw new BusinessException(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getMessage());
                         }
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
@@ -57,9 +62,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     });
         } catch (BusinessException ex) {
-            log.error("Cannot set user authentication", ex);
+            LOGGER.info("Cannot set user authentication: {}", ex.getMessage());
         } catch (Exception e) {
-            log.error("Cannot set user authentication with error", e);
+            LOGGER.info("Cannot set user authentication with error: {}", e.getMessage());
         }
         chain.doFilter(request, response);
     }

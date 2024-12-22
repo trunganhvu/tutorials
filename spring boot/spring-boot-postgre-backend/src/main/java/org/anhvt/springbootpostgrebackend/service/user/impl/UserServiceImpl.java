@@ -4,6 +4,8 @@ import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.anhvt.springbootpostgrebackend.queue.pub.RedisMessagePublisher;
 import org.anhvt.springbootpostgrebackend.repository.UserRepository;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -27,9 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        System.out.println("getUserByUsername1: " + username);
+        LOGGER.info("getUserByUsername1: {}", username);
         redisPublisher.publishUser(username);
-        System.out.println("getUserByUsername2: " + username);
+        LOGGER.info("getUserByUsername2: {}", username);
         return userRepository.findByUsername(username);
     }
 
@@ -45,6 +48,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User validateAndGetUserByUsername(String username) {
+        LOGGER.info("validateAndGetUserByUsername: {}", username);
         return getUserByUsername(username)
                 .orElseThrow(() -> new RuntimeException(String.format("User with username %s not found", username)));
     }

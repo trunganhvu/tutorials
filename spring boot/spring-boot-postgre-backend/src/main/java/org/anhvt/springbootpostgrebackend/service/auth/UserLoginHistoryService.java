@@ -8,6 +8,8 @@ import org.anhvt.springbootpostgrebackend.enums.DltFlg;
 import org.anhvt.springbootpostgrebackend.exception.BusinessException;
 import org.anhvt.springbootpostgrebackend.repository.auth.UserLoginHistoryRepository;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.Optional;
 
 @Service
 public class UserLoginHistoryService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserLoginHistoryService.class);
     @Autowired
     private UserLoginHistoryRepository userLoginHistoryRepository;
     @Value("${app.jwt.refresh.token.expiration}")
@@ -25,6 +29,7 @@ public class UserLoginHistoryService {
 
     @Transactional
     public void saveUserLoginHistory(String username, String refreshToken, String ipAddress, String userAgent) {
+        LOGGER.info("saveUserLoginHistory: {} {} {}", username, ipAddress, userAgent);
         UserLoginHistory userLoginHistory = new UserLoginHistory();
         userLoginHistory.setRefreshToken(refreshToken);
         userLoginHistory.setIpAddress(ipAddress);
@@ -42,6 +47,7 @@ public class UserLoginHistoryService {
     }
 
     public boolean checkTokenExist(String refreshToken) {
+        LOGGER.info("checkTokenExist");
         Optional<UserLoginHistory> userLoginHistory = userLoginHistoryRepository
                 .findByRefreshTokenAndDeletedFlg(refreshToken, DltFlg.N.name());
         if (userLoginHistory.isEmpty()) {
@@ -52,6 +58,7 @@ public class UserLoginHistoryService {
 
     @Transactional
     public void deleteUserLoginHistory(String refreshToken) {
+        LOGGER.info("deleteUserLoginHistory");
         Optional<UserLoginHistory> userLoginHistory = userLoginHistoryRepository
                 .findByRefreshTokenAndDeletedFlg(refreshToken, DltFlg.N.name());
         if (userLoginHistory.isEmpty()) {

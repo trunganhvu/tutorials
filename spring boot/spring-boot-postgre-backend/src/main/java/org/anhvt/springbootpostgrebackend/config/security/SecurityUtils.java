@@ -1,5 +1,7 @@
 package org.anhvt.springbootpostgrebackend.config.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import java.util.Base64;
 import java.util.Optional;
 
 public class SecurityUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtils.class);
+
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(securityContext.getAuthentication())
@@ -22,6 +26,7 @@ public class SecurityUtils {
 //                    else if (authentication.getPrincipal() instanceof String) {
 //                        return (String) authentication.getPrincipal();
 //                    }
+                    LOGGER.info("SecurityUtils.getCurrentUserLogin return null");
                     return null;
                 });
     }
@@ -34,6 +39,7 @@ public class SecurityUtils {
             String encoded = Base64.getUrlEncoder().withoutPadding().encodeToString(hash);
             return encoded.length() > 19 ? encoded.substring(0, 19) : encoded;
         } catch (NoSuchAlgorithmException e) {
+            LOGGER.error("Encode token failed");
             throw new RuntimeException("Error while encoding token", e);
         }
     }

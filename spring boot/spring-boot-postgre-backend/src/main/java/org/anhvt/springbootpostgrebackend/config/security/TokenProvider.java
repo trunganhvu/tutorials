@@ -10,6 +10,8 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.anhvt.springbootpostgrebackend.model.CustomUserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class TokenProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenProvider.class);
 
     @Value("${app.jwt.secret}")
     private String jwtSecret;
@@ -40,6 +43,7 @@ public class TokenProvider {
     public static final String TOKEN_AUDIENCE = "frontend";
 
     public String generateAccessToken(Authentication authentication, String refreshTokenTopChar) {
+        LOGGER.info("generateAccessToken start");
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
         List<String> roles = user.getAuthorities()
@@ -71,6 +75,7 @@ public class TokenProvider {
     }
 
     public String generateRefreshToken(Authentication authentication) {
+        LOGGER.info("generateRefreshToken start");
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 
         List<String> roles = user.getAuthorities()
@@ -99,6 +104,7 @@ public class TokenProvider {
 
     public Optional<Jws<Claims>> validateTokenAndGetJws(String token) {
         try {
+            LOGGER.info("validateTokenAndGetJws start");
             byte[] signingKey = jwtSecret.getBytes();
 
             Jws<Claims> jws = Jwts.parser()
@@ -108,15 +114,15 @@ public class TokenProvider {
 
             return Optional.of(jws);
         } catch (ExpiredJwtException exception) {
-            log.error("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());
+            LOGGER.error("Request to parse expired JWT : {} failed : {}", token, exception.getMessage());
         } catch (UnsupportedJwtException exception) {
-            log.error("Request to parse unsupported JWT : {} failed : {}", token, exception.getMessage());
+            LOGGER.error("Request to parse unsupported JWT : {} failed : {}", token, exception.getMessage());
         } catch (MalformedJwtException exception) {
-            log.error("Request to parse invalid JWT : {} failed : {}", token, exception.getMessage());
+            LOGGER.error("Request to parse invalid JWT : {} failed : {}", token, exception.getMessage());
         } catch (SignatureException exception) {
-            log.error("Request to parse JWT with invalid signature : {} failed : {}", token, exception.getMessage());
+            LOGGER.error("Request to parse JWT with invalid signature : {} failed : {}", token, exception.getMessage());
         } catch (IllegalArgumentException exception) {
-            log.error("Request to parse empty or null JWT : {} failed : {}", token, exception.getMessage());
+            LOGGER.error("Request to parse empty or null JWT : {} failed : {}", token, exception.getMessage());
         }
         return Optional.empty();
     }

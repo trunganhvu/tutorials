@@ -13,6 +13,8 @@ import org.anhvt.springbootpostgrebackend.payload.response.auth.AuthResponse;
 import org.anhvt.springbootpostgrebackend.service.auth.AuthenticationService;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -35,6 +39,7 @@ public class AuthController {
     @PostMapping("/login")
     public APIResponse<Object> login(@Valid @RequestBody LoginRequest loginRequest,
                                      HttpServletRequest request) {
+        LOGGER.info("Login Controller");
         AuthResponse response = authenticateService.authenticate(loginRequest.username(),
                 loginRequest.password(), request);
         return APIResponse.builder()
@@ -47,15 +52,18 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public APIResponse<Object> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+        LOGGER.info("Signup Controller");
         if (userService.hasUserWithUsername(signUpRequest.username())) {
+            LOGGER.info("Username already been used");
             throw new RuntimeException(String.format("Username %s already been used", signUpRequest.username()));
         }
         if (userService.hasUserWithEmail(signUpRequest.email())) {
+            LOGGER.info("Email already been used");
             throw new RuntimeException(String.format("Email %s already been used", signUpRequest.email()));
         }
 
         userService.saveUser(mapSignUpRequestToUser(signUpRequest));
-
+        LOGGER.info("Signup success");
 //        AuthResponse response = authenticateService.authenticate(signUpRequest.username(),
 //                signUpRequest.password());
         return APIResponse.builder()
@@ -67,8 +75,9 @@ public class AuthController {
 
     @PostMapping("/refresh")
     public APIResponse<Object> refreshToken(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        LOGGER.info("RefreshToken Controller");
         AuthResponse response = authenticateService.refreshToken(refreshTokenRequest);
-
+        LOGGER.info("RefreshToken success");
         return APIResponse.builder()
                 .status(ResponseCode.OK.getCode())
                 .message(ResponseCode.OK.getMessage())
@@ -79,8 +88,9 @@ public class AuthController {
     @PostMapping("/logout")
     public APIResponse<Object> logout(HttpServletRequest request,
                                       @Valid @RequestBody LogoutRequest logoutRequest) {
+        LOGGER.info("Logout Controller");
         authenticateService.logout(request, logoutRequest);
-
+        LOGGER.info("Logout success");
         return APIResponse.builder()
                 .status(ResponseCode.LOGOUT_SUCCESS.getCode())
                 .message(ResponseCode.LOGOUT_SUCCESS.getMessage())

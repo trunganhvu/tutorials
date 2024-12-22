@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -44,11 +45,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                     .ifPresent(jws -> {
                         String username = jws.getPayload().getSubject();
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                        // Check is logout user
+                        // Check is logout user in blacklist
                         String key = RedisKey.SESSION_BLACKLIST + username;
                         String refreshTokenTopChar = (String) jws.getPayload().get("refresh_token_top_char");
-                        redisTemplate.opsForSet().members(key);
-                        if (false) {
+                        if (Objects.requireNonNull(redisTemplate.opsForSet().members(key)).contains(refreshTokenTopChar)) {
                             throw new BusinessException(ResponseCode.UNAUTHORIZED.getCode(), ResponseCode.UNAUTHORIZED.getMessage());
                         }
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
