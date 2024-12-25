@@ -13,6 +13,7 @@ import org.anhvt.springbootpostgrebackend.payload.request.auth.LogoutRequest;
 import org.anhvt.springbootpostgrebackend.payload.request.auth.RefreshTokenRequest;
 import org.anhvt.springbootpostgrebackend.payload.response.auth.AuthResponse;
 import org.anhvt.springbootpostgrebackend.queue.pub.RedisMessagePublisher;
+import org.anhvt.springbootpostgrebackend.service.user.UserService;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.anhvt.springbootpostgrebackend.utils.http.RequestUtils;
 import org.slf4j.Logger;
@@ -43,6 +44,8 @@ public class AuthenticationService {
     private UserLoginHistoryService userLoginHistoryService;
     @Autowired
     private RedisMessagePublisher redisPublisher;
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public AuthResponse authenticate(String username, String password, HttpServletRequest request) {
@@ -108,4 +111,7 @@ public class AuthenticationService {
         LOGGER.info("Logout end");
     }
 
+    public boolean isUsernameRegistered(String username) {
+        return userService.isUsernameRegistered(username);
+    }
 }

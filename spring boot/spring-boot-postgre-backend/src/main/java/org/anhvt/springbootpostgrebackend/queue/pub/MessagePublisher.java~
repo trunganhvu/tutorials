@@ -7,7 +7,4 @@ public interface MessagePublisher {
     void publishArticle(final String message);
 
     void publishSessionBlacklist(final String message);
-
-    void publishUsername(final String message);
-
 }

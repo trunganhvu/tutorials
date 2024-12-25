@@ -45,7 +45,7 @@ public class RedisConfig {
 
     @Bean
     MessageListenerAdapter messageUserListener() {
-        return new MessageListenerAdapter(new UserRedisMessageSubscriber());
+        return new MessageListenerAdapter(new UserRedisMessageSubscriber(redisTemplate()));
     }
 
     @Bean
@@ -55,7 +55,7 @@ public class RedisConfig {
 
     @Bean
     MessageListenerAdapter messageSessionBlackListListener() {
-        return new MessageListenerAdapter(new SessionBlackListRedisMessageSubscriber());
+        return new MessageListenerAdapter(new SessionBlackListRedisMessageSubscriber(redisTemplate()));
     }
 
     @Bean
@@ -71,6 +71,11 @@ public class RedisConfig {
     @Bean
     ChannelTopic topicUser() {
         return new ChannelTopic(RedisKey.TOPIC_USER);
+    }
+
+    @Bean
+    ChannelTopic topicUsername() {
+        return new ChannelTopic(RedisKey.TOPIC_USERNAME);
     }
 
     @Bean

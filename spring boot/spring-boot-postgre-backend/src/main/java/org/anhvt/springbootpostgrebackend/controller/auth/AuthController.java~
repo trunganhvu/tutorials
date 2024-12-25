@@ -103,8 +103,8 @@ public class AuthController {
         LOGGER.info("checkUsername Controller");
 
         return APIResponse.builder()
-                .status(ResponseCode.DUPLICATE_RECORD.getCode())
-                .message(ResponseCode.DUPLICATE_RECORD.getMessage())
+                .status(ResponseCode.LOGOUT_SUCCESS.getCode())
+                .message(ResponseCode.LOGOUT_SUCCESS.getMessage())
                 .response(authenticateService.isUsernameRegistered(username))
                 .build();
     }

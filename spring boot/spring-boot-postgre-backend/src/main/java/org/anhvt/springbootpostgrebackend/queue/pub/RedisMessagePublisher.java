@@ -18,6 +18,9 @@ public class RedisMessagePublisher implements MessagePublisher {
     private ChannelTopic topicUser;
 
     @Autowired
+    private ChannelTopic topicUsername;
+
+    @Autowired
     private ChannelTopic topicArticle;
 
     @Autowired
@@ -37,6 +40,13 @@ public class RedisMessagePublisher implements MessagePublisher {
     public void publishSessionBlacklist(String message) {
         LOGGER.info("[PUB] Public message blacklist start: {}", message);
         redisTemplate.convertAndSend(topicSessionBlacklist.getTopic(), message);
-        LOGGER.info("[PUB]Public message blacklist end: {}", message);
+        LOGGER.info("[PUB] Public message blacklist end: {}", message);
+    }
+
+    @Override
+    public void publishUsername(String message) {
+        LOGGER.info("[PUB] Public username start: {}", message);
+        redisTemplate.convertAndSend(topicUsername.getTopic(), message);
+        LOGGER.info("[PUB] Public username end: {}", message);
     }
 }

@@ -20,4 +20,6 @@ public interface UserService {
     User saveUser(User user);
 
     void deleteUser(User user);
+
+    boolean isUsernameRegistered(String username);
 }

@@ -4,10 +4,14 @@ import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.anhvt.springbootpostgrebackend.exception.BusinessException;
 import org.anhvt.springbootpostgrebackend.model.CustomUserDetails;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;
+import org.anhvt.springbootpostgrebackend.utils.StringUtils;
+import org.anhvt.springbootpostgrebackend.utils.constant.RedisKey;
 import org.anhvt.springbootpostgrebackend.utils.constant.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         LOGGER.info("loadUserByUsername: {}", username);
+        LOGGER.info("loadUserByUsername: {}", StringUtils.crc32(username));
         User user = userService.getUserByUsername(username)
                 .orElseThrow(() -> new BusinessException(ResponseCode.USER_NOT_FOUND.getCode(),
                         String.format(String.format("Username %s not found", username))));

@@ -4,9 +4,13 @@ import org.anhvt.springbootpostgrebackend.entity.auth.User;
 import org.anhvt.springbootpostgrebackend.queue.pub.RedisMessagePublisher;
 import org.anhvt.springbootpostgrebackend.repository.UserRepository;
 import org.anhvt.springbootpostgrebackend.service.user.UserService;
+import org.anhvt.springbootpostgrebackend.utils.StringUtils;
+import org.anhvt.springbootpostgrebackend.utils.constant.RedisKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +26,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisMessagePublisher redisPublisher;
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<User> getUsers() {
@@ -55,11 +61,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
+        LOGGER.info("saveUser start");
+        redisPublisher.publishUsername(user.getUsername());
         return userRepository.save(user);
     }
 
     @Override
     public void deleteUser(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public boolean isUsernameRegistered(String username) {
+        long bitOffset = StringUtils.crc32(username);
+        return redisTemplate.execute((RedisCallback<Boolean>) connection ->
+                connection.getBit(RedisKey.REGISTERED_USER_KEY.getBytes(), bitOffset)
+        );
     }
 }

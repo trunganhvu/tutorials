@@ -45,7 +45,7 @@ public class RedisConfig {
 
     @Bean
     MessageListenerAdapter messageUserListener() {
-        return new MessageListenerAdapter(new UserRedisMessageSubscriber());
+        return new MessageListenerAdapter(new UserRedisMessageSubscriber(redisTemplate()));
     }
 
     @Bean
@@ -63,6 +63,7 @@ public class RedisConfig {
         final RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(jedisConnectionFactory());
         container.addMessageListener(messageUserListener(), topicUser());
+        container.addMessageListener(messageUserListener(), topicUsername());
         container.addMessageListener(messageArticleListener(), topicArticle());
         container.addMessageListener(messageSessionBlackListListener(), topicSessionBlacklist());
         return container;
@@ -71,6 +72,11 @@ public class RedisConfig {
     @Bean
     ChannelTopic topicUser() {
         return new ChannelTopic(RedisKey.TOPIC_USER);
+    }
+
+    @Bean
+    ChannelTopic topicUsername() {
+        return new ChannelTopic(RedisKey.TOPIC_USERNAME);
     }
 
     @Bean
