@@ -1,0 +1,12 @@
+package org.anhvt.springbatch.model;
+
+import lombok.Data;
+
+@
+public class Person {
+
+    String firstName;
+    String lastName;
+    Integer age;
+    Boolean active;
+}

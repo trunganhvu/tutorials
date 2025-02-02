@@ -1,0 +1,4 @@
+package org.anhvt.springbatch.config;
+
+public class BatchConfig {
+}
