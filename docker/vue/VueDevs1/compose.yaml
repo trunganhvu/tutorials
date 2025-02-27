@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      target: development
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/project
+      - /project/node_modules
