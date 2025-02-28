@@ -12,4 +12,4 @@
 * Vue3.2
 * Docker node:18.12.1-alpine
 * npm
-* ngix
+* nginx
