@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+# Prod
+  app-vue-prod:
+    container_name: app-vue-prod
+    image: vuejs_docker:prod
+    build:
+      context: .
+      dockerfile: Prod.Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '80:80'
+

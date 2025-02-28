@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+# Local
+  app-vue-front:
+    container_name: app-vue-front
+    image: vuejs_docker:dev
+    build:
+      context: .
+      dockerfile: Dev.Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '8080:8080'
