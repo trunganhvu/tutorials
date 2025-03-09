@@ -80,3 +80,6 @@ pipeline {
 
 ## Configuration pipeline in jenkins
 ![alt text](pipeline-configuration.png)
+
+
+P/s: Jenkins + Spring + Maven: https://howtodoinjava.com/devops/setup-jenkins-pipeline-for-spring-boot-app/
