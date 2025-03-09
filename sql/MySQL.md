@@ -710,8 +710,9 @@ Mọi thay đổi từ transaction khác đểu có thể đọc được mà kh
 * Read committed - Đọc đã được xác nhận
 Transaction chỉ đọc dữ liệu đã committed từ transaction hoàn thành -> Có thể nảy sinh non-repeatable reads
 * Repeatable Read - Đọc có thể lặp lại
-Transaction đảm bảo đữ liệu được đọc không thay đổi giữa các lần đọc (có thể tran khác đã thay đổi record) -> Có thể nảy sinh phantom-reads
-* Serialiable - Chuỗi hóa (Highest Isolation, Lowest Performance)
+Transaction đảm bảo đữ liệu được đọc không thay đổi giữa các lần đọc (có thể tran khác đã thay đổi record) -> Có thể nảy sinh phantom-reads 
+**VD:** Select data trước và sau transaction A (đã commit update) thì kết quả select điều giống nhau (không cập nhật trạng thái mới từ A)
+* Serialiable - Chuỗi hóa (Highest Isolation, Lowest Performance): chỉ 1 transaction được sử dụng table tại 1 thời điểm, transaction khác bắt buộc phải chờ
    1. Read Method: Khóa các row và table transaction sử dụng để đảm bảo data không thay đổi
    2. Write Method: Khóa các row và table (khi insert) đảm bảo transaction khác không thể can thiệp
    3. Serializable Snapshot Isolation (SSI): Khi một transaction bắt đầu, hệ thống sẽ tạo ra một snapshot của dữ liệu cơ sở dữ liệu hiện tại. Mỗi transaction sẽ đọc từ snapshot này, đảm bảo rằng dữ liệu đọc được là nhất quán và không bị thay đổi bởi các transaction khác đang thực hiện đồng thời. 
