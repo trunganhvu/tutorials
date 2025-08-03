@@ -1,0 +1,15 @@
+{
+  "name": "@ai-knowledge-portal/config",
+  "version": "1.0.0",
+  "description": "Shared configuration files for AI Knowledge Portal",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Config package - no build needed'"
+  },
+  "keywords": [
+    "config",
+    "eslint",
+    "typescript",
+    "jest"
+  ]
+} 

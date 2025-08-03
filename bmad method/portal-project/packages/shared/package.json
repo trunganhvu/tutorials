@@ -1,0 +1,21 @@
+{
+  "name": "@ai-knowledge-portal/shared",
+  "version": "1.0.0",
+  "description": "Shared types, constants, and utilities for AI Knowledge Portal",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "rimraf": "^5.0.5"
+  },
+  "keywords": [
+    "types",
+    "utilities",
+    "shared"
+  ]
+} 

@@ -1,0 +1,44 @@
+{
+  "name": "@ai-knowledge-portal/frontend",
+  "version": "1.0.0",
+  "description": "Vue.js 3 frontend for AI Knowledge Portal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.5",
+    "pinia": "^2.1.7",
+    "primevue": "^3.45.0",
+    "primeicons": "^6.0.1",
+    "axios": "^1.6.2",
+    "@vueuse/core": "^10.7.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "vite": "^5.0.8",
+    "vue-tsc": "^1.8.25",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.5",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^9.19.2",
+    "prettier": "^3.1.1",
+    "vitest": "^1.0.4",
+    "@vue/test-utils": "^2.4.3",
+    "jsdom": "^23.0.1",
+    "@playwright/test": "^1.40.1",
+    "@vitest/ui": "^1.0.4",
+    "@vitest/coverage-v8": "^1.0.4"
+  }
+} 
