@@ -205,3 +205,30 @@ Các nhóm tỷ số chủ yếu:
     1.  Tỷ suất lợi nhuận ròng.
     2.  Vòng quay tổng tài sản.
     3.  Hệ số đòn bẩy tài chính.
+
+
+NOTE:
+* Tiền theo Lãi đơn = Tiền * lãi suất * Năm
+* Tiền theo Lãi kép = Tiền * (1 + lãi suất) ^ năm
+* Tiền = Tiền theo Lãi kép / (1 + lãi suất) ^ năm
+* Lãi suất = (Tiền theo Lãi kép / Tiền) ^ (1 / năm) - 1
+* Lãi suất thực = (1 + lãi suất/kỳ tính lãi trong năm) ^ tổng kỳ tính lãi - 1
+* Lãi thực = Tiền * (1 + lãi suất/kỳ tính lãi trong năm) ^ tổng kỳ tính lãi
+* Lãi mỗi kỳ = lãi suất/kỳ tính lãi trong năm
+* Giá trị tương lai của dòng tiền đều:
+  * **Cuối năm** FVA(n) = Tiền * ((1 + lãi suất) ^ năm - 1) / lãi suất
+  * **Đầu năm** FVA(n) = Tiền * ((1 + lãi suất) ^ năm - (1 + lãi suất)) / lãi suất
+  * **Biến thiên** FVA(n) = Σ(t=1,n) tiền * (1 +  lãi suất) ^ (t-1) 
+* Giá trị hiện tại dòng tiền đều:
+  * **Cuối năm** PVA(n) = Tiền * ((1 + lãi suất) ^ năm - 1) / (lãi suât * (1 + lãi suất) ^ năm)
+  * **Đầu năm** PVA(n) = Tiền * (1 + lãi suất) * (1/ lãi suất - 1/ (lãi suất * (1 + lãi suất) ^ năm))
+  
+* Giá trị hiện tại dòng tiền **biến thiên**: PVA(n) =  Σ(t=1,n) tiền * (1/(1 + lãi suất)) ^ t
+
+* Giá trị hiện tại dòng tiền 
+  * **Vô hạn**: PVA(n) = Tiền * Σ(t=1,n) (1/(1 + lãi suất)) ^ t = Tiền * (1/lãi suất - 1/(lãi suất * (1 + lãi suất) ^ năm))
+  * **Đều vô hạn** PVA(n) = Tiền / Lãi suất
+* Chiếu khấu dòng tiền (DCF)
+  * PV = Σ(t=0,năm) CF(t)/(1 + chiết khấu) ^ t
+
+

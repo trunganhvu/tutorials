@@ -1,0 +1,45 @@
+Tài sản = Nợ phải trả + Vốn chủ sở hữu
+=> Vốn chủ sở hữu = Tổng tài sản - Tổng nợ
+
+=> Tổng tài sản = Nợ ngắn hạn + Nợ dài hạn + Vốn chủ sở hữu
+
+câu 6: Penguin Pucks Inc., có tài sản ngắn hạn 5100$, tài sản cố định ròng 23800$, nợ ngắn hạn 4300$ và nợ dài hạn 7400$. Giá trị của tài khoản vốn chủ sở hữu của cổ đông là bao nhiêu? Vốn lưu động ròng là bao nhiêu?
+1.
+Tổng nợ = nợ ngắn hạn + nợ dài hạn = 5100 + 23800
+Tổng tài sản  = tài sản ngắn hạn + tài sản cố định = 4300 + 7400
+
+Tài sản = Nợ phải trả + Vốn chủ sở hữu
+=> Vốn = Tài sản - Nợ phải trả = 5100 + 23800 - (4300 + 7400) = 17200
+
+2.
+Vốn lưu động ròng = tài sản ngắn hạn - nợ ngắn hạn = 5100 - 4300 = 800
+
+Câu 7: Công ty P.R.E có doanh thu 586000$, chi phí 247000$, chi khấu hao 43000$, chi tiền lãi 32000$ và thuế suất 35%. Thu nhập ròng của công ty này là bao nhiêu? 
+Giả sử công ty chi trả cổ tức bằng tiền mặt 73000$. Bổ sung vào thu nhập giữ lại của công ty là bao nhiêu?
+Giả sử công ty có 85000 cổ phần của cổ phiếu phổ thông đang lưu hành. EPS của công ty là bao nhiêu? DPS là bao nhiêu?
+1.
+EBT = Doanh thu - chi phí - khấu hao - tiền lãi = 586000 - 247000 - 43000 - 32000 = 264000
+Tiền đóng thuế = EBT * thuế = 264000 * 0.35 = 92400
+Thu nhập ròng = EBT - tiền đóng thuế = 264000 - 92400 = 171600
+OR: Thu nhập ròng = EBT * (1 - thuế) = 264000 * (1 - 0.35) = 171600
+
+2. 
+Thu nhập dữ lại =  thu nhập ròng - cổ tức tiền mặc = 171600 - 73000 = 98600
+
+3.
+Lãi trên mỗi cổ phiếu EPS = Thu nhập ròng / số cổ phiếu lưu hành = 171600 / 85000 = 2.01882352941
+
+Cổ tức mỗi cổ phiếu = Tổng cổ thức tiền mặt / số cổ phiếu = 73000 / 85000 = 0.85882352941
+
+Câu 8: Klingon Widgets Inc. mua máy mới cách đây ba năm, với giá 7 triệu $. Chiếc máy này có thể bán cho Romulans hôm nay với giá 4,9 triệu $. 
+Bảng cân đối kế toán hiện tại của công ty cho thấy tài sản cố định ròng là 3,7 triệu $, nợ ngắn hạn là 1,1 triệu $ và vốn lưu động ròng là 380000$. 
+Nếu toàn bộ tài sản ngắn hạn được thanh lý hôm nay, công ty sẽ nhận được 1,6 triệu $ tiền mặt. 
+Giá trị sổ sách của tài sản của công ty hôm nay là bao nhiêu? Giá trị thị trường là bao nhiêu?
+1.
+Vốn lưu động ròng = tài sản ngắn hạn - nợ ngắn hạn
+0.38 = ts ngắn hạn - 1.1
+ts ngắn hạn = 0.38 + 1.1 = 1.48
+Giá trị sổ sách = tài sản ngắn hạn + tài sản cố định = 1.48 + 3.7 = 5.18
+
+2.
+Giá trị thị trường = tài sản cố định + tài sản ngắn hạn có thể bán = 4.9 + 1.6 = 6.5
