@@ -1,0 +1,5 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Bạn có thể import PrimeVue CSS ở đây hoặc import trong main.js */
