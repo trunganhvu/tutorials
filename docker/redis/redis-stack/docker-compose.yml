@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7.2
+    container_name: redis
+    restart: always
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - redis_data:/data
+    networks:
+      - redis_net
+
+  redis_insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: redis_insight
+    restart: always
+    ports:
+      - "8001:8001"
+    volumes:
+      - redis_insight_data:/db
+    networks:
+      - redis_net
+
+volumes:
+  redis_data:
+  redis_insight_data:
+
+networks:
+  redis_net:
+    driver: bridge

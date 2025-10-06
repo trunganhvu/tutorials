@@ -1,0 +1,49 @@
+version: "3.3"
+
+services:
+  redis-master:
+    image: redis:6.0.7
+    container_name: redis-master
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+      - redis_master:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redis-slave:
+    image: redis:6.0.7
+    container_name: redis-slave
+    restart: always
+    ports:
+      - 6479:6379
+    depends_on:
+      - redis-master
+    volumes:
+      - ./redis-slave.conf:/usr/local/etc/redis/redis.conf
+      - redis_slave:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redis-insight
+    restart: always
+    ports:
+      - 5540:5540
+    volumes:
+      - redis_insight_data:/data
+    environment:
+      - RAI_SERVER_PORT=5540
+      # Preload connections to both master and slave
+      - RI_PRELOAD_DB_1_NAME=redis-master
+      - RI_PRELOAD_DB_1_HOST=redis-master
+      - RI_PRELOAD_DB_1_PORT=6379
+      - RI_PRELOAD_DB_2_NAME=redis-slave
+      - RI_PRELOAD_DB_2_HOST=redis-slave
+      - RI_PRELOAD_DB_2_PORT=6379
+
+volumes:
+  redis_master:
+  redis_slave:
+  redis_insight_data:

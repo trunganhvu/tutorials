@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.2
+    container_name: redis
+    restart: always
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./data:/data
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    networks:
+      - redis-net
+
+networks:
+  redis-net:
+    driver: bridge
