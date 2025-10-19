@@ -1,0 +1,20 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "authenticationType": "jwt",
+    "baseName": "jhipsterMonolith",
+    "buildTool": "maven",
+    "cacheProvider": "no",
+    "clientFramework": "vue",
+    "clientPackageManager": "npm",
+    "enableSwaggerCodegen": false,
+    "enableTranslation": false,
+    "entities": ["Product"],
+    "jhipsterVersion": "8.11.0",
+    "jwtSecretKey": "MGMzOGM4ZjU2YzhjMjA2NTIxN2NhODYwZWMzMjk0ZDFlNWI0YjJlYTRkYTI3ZTJhMGIyMDI1MmQ5ZDhlMTI2Nzc1MWFhNGI4MzE0ZmZhMGFlMjQxOGIyMWIwOTEwN2M3MTVkMWM2NDhiZDZlZDU4MDA3NDJjMTE2ZmM5MjMwMmU=",
+    "lastLiquibaseTimestamp": 1760853076000,
+    "nativeLanguage": "en",
+    "prodDatabaseType": "postgresql",
+    "skipClient": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "annotations": {
+    "changelogDate": "20251019055116"
+  },
+  "applications": ["jhipsterMonolith"],
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "stock",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Product",
+  "relationships": [],
+  "searchEngine": "no"
+}
