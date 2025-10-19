@@ -10,6 +10,40 @@ This is a JHipster-generated monolithic application with a Java/Spring Boot back
 - Node.js 18+
 - Maven
 - Docker (optional, for database and other services)
+### Initial jhipster
+#### application.jdl
+```jdl
+application {
+  config {
+    baseName jhipsterMonolith,
+    applicationType monolith,
+    authenticationType jwt,
+    clientFramework vue,
+    clientPackageManager npm,
+    prodDatabaseType postgresql,
+    buildTool maven,
+    enableSwaggerCodegen false,
+    cacheProvider no,
+    enableTranslation false,
+    skipClient false
+  }
+  entities Product
+}
+
+entity Product {
+  name String required,
+  description String,
+  price BigDecimal required,
+  stock Integer required
+}
+
+# Use built-in User management; JHipster generates User entity itself.
+```
+#### Run build with config
+```bash
+jhipster import-jdl application.jdl
+```
+
 
 ### Development Setup
 
